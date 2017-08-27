@@ -14,7 +14,7 @@ app.controller('cookieCtrl', ['$timeout', '$scope', function ($timeout, $scope) 
       document.cookie = "cookiescriptaccept=visit"
     }
     $timeout(()=>{
-      vm.elem.parentNode.removeChild(vm.elem);
+      if (vm.elem) vm.elem.parentNode.removeChild(vm.elem);
     }, 500);
   }
 
@@ -24,7 +24,7 @@ app.controller('cookieCtrl', ['$timeout', '$scope', function ($timeout, $scope) 
       vm.elem.setAttribute('style', 'opacity:1;');
       $timeout(vm.close, 5000);
     }, 2500);
-  } else vm.elem.parentNode.removeChild(vm.elem);
+  } else if (vm.elem) vm.elem.parentNode.removeChild(vm.elem);
 
   function getCookieValue(a, b) {
     b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
