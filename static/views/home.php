@@ -69,5 +69,5 @@ if($norsk){
   <span ng-hide="master.yrCredit" ng-if="master.weatherDataLoaded"><?= $text->{'metCredit'} ?></span>
 </section>
 
-<img src="https://static.<?= $dname ?>.tk/img/loading.svg" class="loader" ng-if="!master.weatherDataLoaded" />
+<img src="/static/img/loading.svg" class="loader" ng-if="!master.weatherDataLoaded" />
 <ul class="list-group" ng-if="master.fail" style="margin-bottom: 0px;margin-top: 20px;"><li class="list-group-item list-group-item-danger"><?= $text->{'fetchFail'} ?></li></ul>
