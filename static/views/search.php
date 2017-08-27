@@ -31,7 +31,7 @@ if($norsk){
         </div>
       </a>
     </div>
-    <div ng-if="s.matches.length == 0 && s.query.length > 0" ng-show="s.userSearched">
+    <div ng-if="s.matches.length == 0 && s.query.length > 0">
       <?= $text->{'noMatches'} ?>
     </div>
   </div>
