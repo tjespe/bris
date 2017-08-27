@@ -43,7 +43,7 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
   <style ng-if="master.ubuntuLoaded">{{master.ubuntu}}</style>
 </head>
 
-<body ng-controller="viewCtrl as view" ontouchstart para-back="https://static.<?= $dname ?>.tk/img/background.jpg" style="background-image:url(/static/img/background.jpg)">
+<body ng-controller="viewCtrl as view" ontouchstart para-back="/static/img/background.jpg" style="background-image:url(/static/img/background.jpg)">
 
   <div class="page-content-wrapper">
     <header>
@@ -68,20 +68,6 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
       <div ng-view></div>
     </div>
 
-  </div>
-
-  <div class="footer" id="footeren" ng-hide="view.standalone">
-    <?= $text->{'contactHead'} ?>
-    <div class="container">
-      <div class="col-xs-6"><?= $text->{'mail'} ?></div>
-      <div class="col-xs-6"><?= $text->{'web'} ?></div>
-      <div class="col-xs-6">
-        <a href="mailto:admin@thorin-apps.tk"><span class="glyphicon glyphicon-envelope"></span></a>
-      </div>
-      <div class="col-xs-6">
-        <a href="https://thorin-apps.tk/"><span class="glyphicon glyphicon-globe"></span></a>
-      </div>
-    </div>
   </div>
 
   <lazy ng-if="master.lazyModulesLoaded">
