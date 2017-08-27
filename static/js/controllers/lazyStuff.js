@@ -74,7 +74,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
       if (!/\/([\w%-]+\/){2,3}[\w%-]+\/?/i.test(window.location.pathname) && !/^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|(?=$))){4}$/.test(window.location.pathname)) {
         console.log("Position accessed successfully", position);
         $scope.master.location = exact;
-        var url = 'https://static.'+domain+'.tk/php/location-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
+        var url = '/static/php/location-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
         $http.get(url).success(function (data) {
           /*$scope.master.data = data.data;
           for (var i = 0; i < $scope.master.data.length; i++) {
@@ -183,7 +183,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
     function fetchWeather() {
       var weatherRequest = {
         method: 'GET',
-        url: 'https://static.'+domain+'.tk/php/weather.php?yrstring='+vm.yrString+'&d='+Math.floor(Date.now()/(3.6*10e5))+wsuf
+        url: '/static/php/weather.php?yrstring='+vm.yrString+'&d='+Math.floor(Date.now()/(3.6*10e5))+wsuf
       };
 
       $http(weatherRequest)
@@ -212,7 +212,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
     function fetchMoreWeather() {
       var weatherRequest = {
         method: 'GET',
-        url: 'https://static.'+domain+'.tk/php/more-weather.php?yrstring='+vm.yrString+'&d='+Math.floor(Date.now()/(3.6*10e5))+wsuf
+        url: '/static/php/more-weather.php?yrstring='+vm.yrString+'&d='+Math.floor(Date.now()/(3.6*10e5))+wsuf
       };
 
       $http(weatherRequest).then(function successCallback(response) {
@@ -232,7 +232,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
       $scope.master.weatherDataLoaded = true;
       //console.log("Starter behandling av data:", data);
       var ndata = {};
-      var path = "https://static."+domain+".tk/img/modern-icons/";
+      var path = "/static/img/modern-icons/";
       for (var i = 0; i < data.length; i++) {
         var icon = data[i].icon;
         data[i].offset = false;
@@ -471,7 +471,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
     if (/^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|(?=$))){4}$/.test(window.location.pathname.split('/')[1])) suf = '&ip='+window.location.pathname.split('/')[1];
     if (/\/(([A-Z])\w+\/){2,3}([A-Z])\w+\/?/i.test(window.location.pathname)) suf = '&ip='+window.location.pathname;
     if (navigator.onLine) {
-      $http.get('https://static.'+domain+'.tk/php/report.php?yrstring='+vm.yrString+suf).success(function (data) {
+      $http.get('/static/php/report.php?yrstring='+vm.yrString+suf).success(function (data) {
         console.log(data);
       });
     }
@@ -506,7 +506,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
     $scope.master.ubuntu = localStorage.ubuntu;
     $scope.master.ubuntuLoaded = true;
   } else {
-    $http.get('https://static.'+domain+'.tk/css/ubuntu.php').success(function (data) {
+    $http.get('/static/css/ubuntu.php').success(function (data) {
       $scope.master.ubuntu = data;
       $scope.master.ubuntuLoaded = true;
       localStorage.ubuntu = data;

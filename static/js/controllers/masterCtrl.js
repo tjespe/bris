@@ -57,7 +57,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     eval(localStorage.lazyModules);
     vm.lazyModulesLoaded = true;
   } else {
-    $http.get('https://static.'+domain+'.tk/js/lazyModules.php?d='+Date.now()).success(function (data) {
+    $http.get('/static/js/lazyModules.php?d='+Date.now()).success(function (data) {
       eval(data);
       vm.lazyModulesLoaded = true;
       if (typeof(Storage) !== "undefined") {

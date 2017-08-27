@@ -8,7 +8,7 @@ app.controller('searchController', ['$http', '$scope', '$q', 'domain', function(
 
   vm.search = function () {
     //canceler.resolve();
-    $http.get('https://static.'+domain+'.tk/php/search.php?q='+vm.query, {timeout: canceler.promise}).success(function (data) {
+    $http.get('/static/php/search.php?q='+vm.query, {timeout: canceler.promise}).success(function (data) {
       vm.userSearched = true;
       vm.matches = data[1];
       console.log("Yr svarte, respons:", data);
