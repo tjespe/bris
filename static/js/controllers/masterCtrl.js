@@ -13,17 +13,13 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.online = "onLine" in navigator && navigator.onLine;
   console.log("homeCtrl-scope:", $scope);
 
-  vm.mlcLoaded = false;
-  vm.bootstrapLoaded = false;
-  vm.bootstrap = "";
-  vm.lbcLoaded = false;
-  vm.lbc = "";
-  vm.ubuntuLoaded = false;
-  vm.ubuntu = "";
   vm.lazyModulesLoaded = false;
   vm.location = "";
   vm.yrCredit = true;
   vm.recents = {};
+
+  vm.css = "";
+
   if (typeof(Storage) !== "undefined" && localStorage.hasOwnProperty('recents')) {
     vm.recents = JSON.parse(localStorage.recents);
   }

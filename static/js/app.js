@@ -2,12 +2,6 @@ var app = angular.module("app", ['ngRoute']);
 app.value('domain', !location.host.includes(":") ? location.host.match(/[w]{3}?\.(.*)\..*/)[1] : location.host);
 
 app.config(["$routeProvider", "$sceProvider", "$locationProvider", '$controllerProvider', '$provide', '$compileProvider', '$filterProvider', '$sceDelegateProvider', function($routeProvider, $sceProvider, $locationProvider, $controllerProvider, $provide, $compileProvider, $filterProvider, $sceDelegateProvider) {
-  //var domain = !location.host.includes(":") ? location.host.match(/[w]{3}?\.(.*)\..*/)[1] : location.host;
-  //$sceDelegateProvider.resourceUrlWhitelist([
-    //'self',
-    //'https://static.'+domain+'.tk/**',
-    //'http://static.'+domain+'.tk/**'
-  //]);
 
   $routeProvider
   .when('/', {

@@ -36,11 +36,9 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
   <!-- Icons: -->
   <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png" />
   <!-- Essential style: -->
-  <style>@font-face{font-family:'Glyphicons Halflings';src:url(/fonts/glyphicons-halflings-regular.eot);src:url(/fonts/glyphicons-halflings-regular.eot?#iefix) format('embedded-opentype'),url(/fonts/glyphicons-halflings-regular.woff2) format('woff2'),url(/fonts/glyphicons-halflings-regular.woff) format('woff'),url(/fonts/glyphicons-halflings-regular.ttf) format('truetype'),url(/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular) format('svg')}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:400;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}</style>
-  <style ng-if="master.bootstrapLoaded">{{master.bootstrap}}</style>
   <style><?= $css ?></style>
   <!-- Lazy-loaded stylesheets: -->
-  <style ng-if="master.ubuntuLoaded">{{master.ubuntu}}</style>
+  <style ng-bind="master.css"></style>
 </head>
 
 <body ng-controller="viewCtrl as view" ontouchstart para-back="/static/img/background.jpg" style="background-image:url(/static/img/background.jpg)">
@@ -61,7 +59,6 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
         <ul class="nav nav-tabs">
           <li ng-class="{'active':master.ifHome()}"><a href="/"><span class="glyphicon glyphicon-screenshot"></span><span class="glyph-desc"> <?= $text->{'yourLocation'} ?></span></a></li>
           <li ng-class="{'active':master.ifSearch()}" ng-if="master.online"><a href="/search"><span class="glyphicon glyphicon-search"></span><span class="glyph-desc"> <?= $text->{'search'} ?></span></a></li>
-          <!--li ng-if="master.yrStringProvided()" class="active"><a href><span>{{master.shorten(master.location)}}</span></a></li-->
           <li ng-if="recent.info.url !== '/'" ng-repeat="recent in master.recents" ng-class="{active:master.ifAt(recent.info.url)}" ng-click="master.goTo(recent.info.url)"><a href><span ng-bind="master.shorten(recent.info.location)"><?= $text->{'clickHere'} ?></span></a></li>
         </ul>
       </div>

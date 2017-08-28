@@ -1,4 +1,3 @@
-console.log("Lazystuff is loaded");
 app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain', function ($http, $scope, $window, $location, domain) {
 
   console.log("Executing lazyStuff.js");
@@ -76,13 +75,8 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
         $scope.master.location = exact;
         var url = '/static/php/location-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
         $http.get(url).success(function (data) {
-          /*$scope.master.data = data.data;
-          for (var i = 0; i < $scope.master.data.length; i++) {
-            $scope.master.data[i].time = vm.days[$scope.master.data[i].day] +' '+ $scope.master.data[i].hour+'-'+$scope.master.data[i].hourTo;
-          }*/
           $scope.master.yrCredit = false;
           Array.prototype.push.apply(vm.rawdata, data.data);
-          //weatherLoaded(data.data);
           weatherLoaded();
         }).error(function (data, status) {
           manualFetch();
@@ -168,7 +162,6 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
               loc = vm.yrString.split('/')[2].replace(/_/g, ' ');
             }
           }
-          //$scope.master.location = loc.replace(/%20/g, ' ').replace(/%C3%A6/g, 'æ').replace(/%C3%B8/g, 'ø').replace(/%C3%A5/g, 'å').replace(/%C3%86/g, 'Æ').replace(/%C3%98/g, 'Ø').replace(/%C3%85/g, 'Å');
           $scope.master.location = decodeURIComponent(loc);
         } else {
           vm.yrString = localStorage.yrString;
@@ -191,15 +184,6 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
         console.log("Værdata-request fullført, skriptkjøringstid på serveren:", response.data.log, "Her er responsen:", response);
         if (!response.data.fail) {
           console.log("No error");
-          /*$scope.master.data = response.data.data;
-          for (var i = 0; i < $scope.master.data.length; i++) {
-            $scope.master.data[i].time = vm.days[$scope.master.data[i].day] +' '+ $scope.master.data[i].hour+':00';
-          }*/
-          if (!initialJSON.noNeed && typeof(Storage) !== "undefined" && vm.zip.split('0').length-1 < 3) {
-            //localStorage.yrString = vm.yrString;
-            //localStorage.location = $scope.master.location;
-            //localStorage.locationExpiry = Date.now() + 1000*60*60*24*4;
-          }
           Array.prototype.push.apply(vm.rawdata, response.data.data);
           weatherLoaded();
           fetchMoreWeather();
@@ -218,10 +202,6 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
       $http(weatherRequest).then(function successCallback(response) {
         console.log("Værdata-request fullført, skriptkjøringstid på serveren:", response.data.log, "Her er responsen:", response);
         var data = response.data.data;
-        /*for (var i = 0; i < data.length; i++) {
-          data[i].time = vm.days[data[i].day] + ' ' + data[i].hour + '-' + data[i].hourTo;
-        }*/
-        //Array.prototype.push.apply($scope.master.data, data);
         Array.prototype.push.apply(vm.rawdata, data);
         weatherLoaded();
       });
@@ -230,7 +210,6 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
     function weatherLoaded() {
       var data = vm.rawdata;
       $scope.master.weatherDataLoaded = true;
-      //console.log("Starter behandling av data:", data);
       var ndata = {};
       var path = "/static/img/modern-icons/";
       for (var i = 0; i < data.length; i++) {
@@ -259,9 +238,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
           }
           data[i].foreground = path+icon.substring(0,2)+"f.png";
         } else if (/^mf\/\d+n\.\d+$/.test(icon)) {
-          //console.log("/^mf\/\d+n\.\d+$/.test(data["+i+"].icon) = true");
           var phase = icon.substring(7,9);
-          //data[i].background = path+"mfb/"+phase+".png";
           if (!/^mf\/0[12]n\.\d{2}$/.test(icon)) {
             data[i].offset = true;
           }
@@ -271,32 +248,20 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
           } else {
             data[i].foreground = path+icon.substring(3,5)+"f.png";
           }
-          //console.log("behandlet data["+i+"]:", data[i]);
         }
         var norge = data[1].hour - data[0].hour == 1 || (data[1].hour == 0 && data[0].hour == 23);
         if (ndata.hasOwnProperty(vm.days[data[i].day]) && data[i].date !== ndata[vm.days[data[i].day]][0].date) {
-        //if ((data[i].day === data[0].day && data[i].date !== data[0].date) || (data[i].day === data[24].day && data[i].date !== data[24].date) || (data[i].day === data[47].day && data[i].date !== data[47].date)) {
           if (ndata.hasOwnProperty(vm.days[data[i].day]+" ")) {
-            //console.log("ndata[vm.days["+data[i].day+" ]] existed, pushing...");
-            //Array.prototype.push.apply(ndata[vm.days[data[i].day]+" "], data[i]);
             ndata[vm.days[data[i].day]+" "].push(data[i]);
-            //console.log("ndata[vm.days["+data[i].day+" ]] after pushing:", ndata[vm.days[data[i].day]+" "]);
           } else {
-            //console.log("ndata[vm.days["+data[i].day+" ]] didn't exist, creating...");
             ndata[vm.days[data[i].day]+" "] = [data[i]];
           }
         } else if (ndata.hasOwnProperty(vm.days[data[i].day])) {
-          //console.log("ndata[vm.days["+data[i].day+"]] existed, pushing...");
-          //Array.prototype.push.apply(ndata[vm.days[data[i].day]], data[i]);
           ndata[vm.days[data[i].day]].push(data[i]);
-          //console.log("ndata[vm.days["+data[i].day+"]] after pushing:", ndata[vm.days[data[i].day]]);
         } else {
           ndata[vm.days[data[i].day]] = [data[i]];
-          //console.log("ndata[vm.days["+data[i].day+"]] didn't exist, creating...");
         }
       }
-      //console.log("ndata:", ndata);
-      //$scope.master.data = data;
       var nndata = [];
       var i = 0;
       for (var day in ndata) {
@@ -367,30 +332,9 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
         nndata[i] = {
           day: day,
           showFull: [false, false, false, false],
-          //hourbyhour: ndata[day].length > 4,
           index: i,
           periods: [],
-          /*periods: [
-            {
-              summary: summaries[0],
-              data: summaryHours[0]
-            },
-            {
-              summary: summaries[1],
-              data: summaryHours[1]
-            },
-            {
-              summary: summaries[2],
-              data: summaryHours[2]
-            },
-            {
-              summary: summaries[3],
-              data: summaryHours[3]
-            }
-          ],*/
-          data: ndata[day]//,
-          //summaries: summaries,
-          //showSummaries: showSummaries
+          data: ndata[day]
         };
         for (var j = 0; j < summaries.length; j++) {
           if (showSummaries[j]) {
@@ -412,21 +356,9 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
         for (var j = 0; j < nndata[i].periods.length; j++) {
           nndata[i].periods[j].group = nndata[i].periods[j].data[0].group;
         }
-        //nndata[i].group = nndata[i].periods[0].data[0].group;
         nndata[i].periods.sort(compare);
         i++;
       }
-      /*for (var i = 0; i < nndata.length; i++) {
-        for (var j = 0; j < nndata[i].data.length; j++) {
-          if (!nndata[i].data[j].summarized) {
-            nndata[i].periods.push({
-              data: nndata[i].data[j]
-            });
-          }
-        }
-      }*/
-      //console.log("nndata:", nndata);
-      //Array.prototype.push.apply($scope.master.data, nndata);
       $scope.master.data = nndata;
       console.log("Værdataen er behandlet, resultat:", $scope.master.data);
       if (initialJSON.noNeed || $scope.master.ifHome()) {
@@ -498,43 +430,22 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
     return 0;
   }
 
-  function jqueryStuff() {
-    // Do jqueryStuff here
+  function loadCSS (url) {
+    if (typeof localStorage[url] !== 'undefined') {
+      $scope.master.css += localStorage[url];
+    } else {
+      $http.get(url).success((data)=>{
+        $scope.master.css += data;
+        localStorage[url] = data;
+      });
+    }
   }
-
-  if (typeof localStorage.ubuntu !== 'undefined') {
-    $scope.master.ubuntu = localStorage.ubuntu;
-    $scope.master.ubuntuLoaded = true;
-  } else {
-    $http.get('/static/css/ubuntu.php').success(function (data) {
-      $scope.master.ubuntu = data;
-      $scope.master.ubuntuLoaded = true;
-      localStorage.ubuntu = data;
-    });
-  }
-
-  $scope.master.mlcLoaded = true;
-
-  $http.get('https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css').success(function (data) {
-    $scope.master.bootstrap = data;
-    $scope.master.bootstrapLoaded = true;
-  });
-
-  /*jqueryLoaded.request.success(function (data) {
-  $timeout(jqueryStuff, 50);
-});*/
+  loadCSS("/static/css/ubuntu.php");
+  loadCSS("/static/css/glyphicons.min.css");
 
   if (typeof(Storage) !== "undefined") {
     var initial = localStorage.visits || 0;
     localStorage.visits = initial*1 + 1;
   }
-
-  /*$scope.master.time = function (hour, hourTo) {
-    if ($scope.master.norsk) {
-      return "Kl "+hour+"-"+hourTo;
-    } else {
-      return hour+"-"+hourTo;
-    }
-  }*/
 
 }]);
