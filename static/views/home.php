@@ -42,7 +42,7 @@ if($norsk){
             <div>
               <span>
                 <moon ng-if="period.summary.icon.indexOf('mf') > -1" offset="{{::period.summary.offset}}" style="{{'box-shadow: #ffe599 '+period.summary.phase+'px 0px inset;'}}" ng-class="{'moon-alone':!period.summary.showImg}"></moon>
-                <img ng-if="period.summary.showImg" class="weather-icon" ng-src="{{::period.summary.foreground}}" style="{{::'background-image:url('+period.summary.background+');'}}" ng-class="{'back-offset':period.summary.offset}" alt="" />
+                <img ng-if="period.summary.showImg" class="weather-icon" ng-src="{{::period.summary.foreground}}" style="{{::'background-image:url('+period.summary.background+');'}}" ng-class="{'background-offset':period.summary.offset}" alt="" />
               </span>
             </div>
             <div><span>{{::period.summary.degs}}ºC</span></div>
@@ -54,7 +54,7 @@ if($norsk){
             <div>
               <span>
                 <moon ng-if="hour.icon.indexOf('mf') > -1" offset="{{::hour.offset}}" style="{{'box-shadow: #ffe599 '+hour.phase+'px 0px inset;'}}" ng-class="{'moon-alone':!hour.showImg}"></moon>
-                <img ng-if="hour.showImg" class="weather-icon" ng-src="{{::hour.foreground}}" style="{{::'background-image:url('+hour.background+');'}}" ng-class="{'back-offset':hour.offset}" alt="" />
+                <img ng-if="hour.showImg" class="weather-icon" ng-src="{{::hour.foreground}}" style="{{::'background-image:url('+hour.background+');'}}" ng-class="{'background-offset':hour.offset}" alt="" />
               </span>
             </div>
             <div><span>{{::hour.degs}}ºC</span></div>
