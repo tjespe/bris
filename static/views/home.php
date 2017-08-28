@@ -33,7 +33,7 @@ if($norsk){
       <div ng-repeat="day in master.data track by $index">
         <div ng-if="day.index != 0" class="dateshift weather-row semi-row"><div>{{::day.day}}</div></div>
         <div ng-repeat="period in day.periods track by $index">
-          <div ng-if="period.showSummary" class="night weather-row" ng-class="{'show-row':!day.showFull[period.group]}">
+          <div ng-if="period.showSummary" class="summarized weather-row" ng-class="{'show-row':!day.showFull[period.group]}">
             <div ng-if="period.data.length>1" class="expand-btn-alt" ng-click="master.toggle(day.index, period.group)">
               <span style="margin-bottom:20px;"><? if ($norsk) {?>Kl <?} ?>{{::period.summary.hour}}-{{::period.summary.hourTo}}</span>
               <span class="glyphicon glyphicon-menu-down"></span>
@@ -49,7 +49,7 @@ if($norsk){
             <div ng-if="view.width>413"><span>{{::period.summary.precipitation}} mm</span></div>
             <div ng-if="view.width>515"><span>{{::period.summary.wind}} m/s</span></div>
           </div>
-          <div ng-repeat="hour in period.data track by $index" ng-class="{'night':hour.summarized,'show-row':day.showFull[hour.group]}" class="weather-row">
+          <div ng-repeat="hour in period.data track by $index" ng-class="{'summarized':hour.summarized,'show-row':day.showFull[hour.group]}" class="weather-row">
             <div><span><? if ($norsk) {?>Kl <?} ?>{{::hour.hour}}-{{::hour.hourTo}}</span></div>
             <div>
               <span>

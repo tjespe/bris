@@ -91,34 +91,34 @@ moon[offset=true] {
   line-height: 9px;
 }
 .dateshift>div {padding: 5px}
-.night {
+.summarized {
   height:0px;
 	max-height: 0px;
 	min-height: 0px;
 	opacity: 0;
 	transition: all 0.27s ease-in-out;
 }
-.night>div {
+.summarized>div {
   padding:0px !important;
 	border:0px solid transparent !important;
 	transition: all 0.27s ease-in-out;
 }
-.night>div * {
+.summarized>div * {
   height:0px;
 	transition: all 0.27s ease-in-out;
 }
-.night.show-row {
+.summarized.show-row {
   height:62px !important;
   opacity: 1 !important;
 	max-height: 62px;
 	min-height: 62px;
 }
-.night.show-row>div {
+.summarized.show-row>div {
   padding:8px !important;
 	border: 1px solid #ddd !important;
 	transition: all 0.27s ease-in-out;
 }
-.night.show-row>div * {transition: all 0.27s ease-in-out}
+.summarized.show-row>div * {transition: all 0.27s ease-in-out}
 .weather-row {
   display: flex;
 	height: 62px;
