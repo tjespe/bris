@@ -50,7 +50,7 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
     <spacer></spacer>
 
     <div class="content">
-      <div class="location-menu">
+      <div class="nav-menu">
         <ul class="nav nav-tabs">
           <li ng-class="{'active':master.ifHome()}"><a href="/"><span class="glyphicon glyphicon-screenshot"></span><span class="top-bar-text"> <?= $text->{'yourLocation'} ?></span></a></li>
           <li ng-class="{'active':master.ifSearch()}" ng-if="master.online"><a href="/search"><span class="glyphicon glyphicon-search"></span><span class="top-bar-text"> <?= $text->{'search'} ?></span></a></li>

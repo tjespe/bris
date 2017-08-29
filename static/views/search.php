@@ -17,11 +17,9 @@ if($norsk){
 <lazy ng-if="master.lazyModulesLoaded"><lazy ng-controller="lazyStuff"></lazy></lazy>
 <div ng-if="master.lazyModulesLoaded">
   <div ng-controller="searchController as s">
-    <form class="search-form">
-      <input type="text" ng-model="s.query" placeholder="<?= $text->{'typeLocation'} ?>" ng-keyup="s.search()">
-    </form>
+    <input type="text" ng-model="s.query" placeholder="<?= $text->{'typeLocation'} ?>" ng-keyup="s.search()">
     <div ng-if="s.matches.length>0" class="matching-locations">
-      <a ng-repeat="match in s.matches" class="weather-row location-row" href="{{match[1].replace('/sted', '')}}">
+      <a ng-repeat="match in s.matches" class="row location-row" href="{{match[1].replace('/sted', '')}}">
         <div class="place-description">
           {{match[0]}}
           <div>{{match[2]}}</div>
