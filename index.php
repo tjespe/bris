@@ -52,7 +52,7 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
     <div class="content">
       <div class="nav-menu">
         <ul class="nav nav-tabs">
-          <li ng-class="{'active':master.ifHome()}"><a href="/"><span class="glyphicon glyphicon-screenshot"></span><span class="top-bar-text"> <?= $text->{'yourLocation'} ?></span></a></li>
+          <li ng-class="{'active':master.ifHome()}"><a href="/"><span class="glyphicon glyphicon-screenshot"></span><span class="nav-menu-text"> <?= $text->{'yourLocation'} ?></span></a></li>
           <li ng-class="{'active':master.ifSearch()}" ng-if="master.online"><a href="/search"><span class="glyphicon glyphicon-search"></span><span class="top-bar-text"> <?= $text->{'search'} ?></span></a></li>
           <li ng-if="recent.info.url !== '/'" ng-repeat="recent in master.recents" ng-class="{active:master.ifAt(recent.info.url)}" ng-click="master.goTo(recent.info.url)"><a href><span ng-bind="master.shorten(recent.info.location)"><?= $text->{'clickHere'} ?></span></a></li>
         </ul>

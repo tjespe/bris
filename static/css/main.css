@@ -1,17 +1,7 @@
+/* Genral CSS */
 body {
   margin: 0px;
   -webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;
-}
-header {
-  width:100%;
-	background:#FEFEFE;
-	border:1px solid #CCC;
-	letter-spacing:1px;
-	height:66px;
-	text-align:center;
-	z-index:1000;
-  color:#337ab7;
-  font-size: 14px;
 }
 .content {
   font-size:18px;
@@ -25,6 +15,24 @@ header {
 	min-width: 285px;
 	overflow: hidden;
 }
+a {
+  color: #337ab7;
+	text-decoration: none
+}
+h3 {margin-top:0}
+
+/* Header CSS */
+header {
+  width:100%;
+	background:#FEFEFE;
+	border:1px solid #CCC;
+	letter-spacing:1px;
+	height:66px;
+	text-align:center;
+	z-index:1000;
+  color:#337ab7;
+  font-size: 14px;
+}
 @media screen and (min-height: 570px) {
   header {
     position:fixed;
@@ -34,17 +42,15 @@ header {
     height:66px;
   }
 }
-@media screen and (max-width: 565px) {
-  .top-bar-text {
-    display: none;
-  }
-}
-h3 {margin-top:0}
+
+/* Loading icon CSS */
 @keyframes spin {0% {transform: rotate(45deg)}17% {transform: rotate(300deg)}34% {transform: rotate(90deg)}51% {transform: rotate(450deg)}66% {transform: rotate(135deg)}83% {transform: rotate(495deg)}100% {transform: rotate(405deg)}}
 .loader {animation-name: spin;
 	animation-duration: 5s;
 	animation-iteration-count: infinite;
 }
+
+/* Cookie box CSS */
 .cookie-box {
   position: fixed;
   bottom: 0;
@@ -56,6 +62,8 @@ h3 {margin-top:0}
   transition: opacity 0.3s ease-in-out;
   z-index:1000;
 }
+
+/* Weather icons CSS */
 .background-offset {background-position: -5px -5px}
 .weather-icon {
   height: 45px !important;
@@ -77,6 +85,8 @@ moon[offset=true] {
 .moon-alone {
   margin-left: -15px;
 }
+
+/* Weather table CSS */
 #table-header>div {
   border-bottom-width: 2px;
   border-top-width: 2px;
@@ -119,15 +129,8 @@ moon[offset=true] {
 .expand-btn:hover {color:#286090}
 .expand-btn>span:hover {cursor: pointer}
 .expand-btn>span {display: block}
-.nav-menu>ul {display: flex}
-.nav-menu>ul>li {
-  flex:1;
-  list-style-type: none;
-}
-a {
-  color: #337ab7;
-	text-decoration: none
-}
+
+/* Search form CSS */
 .location-row>div {padding: 10px}
 .place-description {
   text-align: left;
@@ -145,7 +148,19 @@ input {
   margin: 0 15px 15px;
   font-size: initial;
 }
+
+/* Navigation menu CSS */
+.nav-menu>ul {display: flex}
+.nav-menu>ul>li {
+  flex:1;
+  list-style-type: none;
+}
 .nav-tabs {
   overflow-x: scroll;
   -webkit-overflow-scrolling: touch;
+}
+@media screen and (max-width: 565px) {
+  .nav-menu-text {
+    display: none;
+  }
 }
