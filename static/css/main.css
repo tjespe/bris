@@ -170,7 +170,7 @@ input {
   padding: 7.5px 5px;
   border-radius: 5px;
 }
-.nav-menu>ul>li.active>a {
+.nav-menu>ul>li.active>a, .nav-menu>ul>li>a:active {
   color: #fff;
   background: #337ab7;
 }
