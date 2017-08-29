@@ -155,6 +155,7 @@ input {
 .nav-menu>ul {
   display: flex;
   justify-content:space-around;
+  padding-left: 0;
 }
 .nav-menu>ul>li {
   list-style-type: none;
