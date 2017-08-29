@@ -152,9 +152,11 @@ input {
 }
 
 /* Navigation menu CSS */
-.nav-menu>ul {display: flex}
+.nav-menu>ul {
+  display: flex;
+  justify-content:space-around;
+}
 .nav-menu>ul>li {
-  flex:1;
   list-style-type: none;
 }
 .nav-tabs {
