@@ -156,8 +156,6 @@ input {
   display: flex;
   justify-content:space-around;
   padding-left: 0;
-  overflow-x: scroll;
-  -webkit-overflow-scrolling: touch;
   margin-top: 0;
 }
 .nav-menu>ul>li {
