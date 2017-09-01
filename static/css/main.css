@@ -134,6 +134,7 @@ moon[offset=true] {
 
 /* Search form CSS */
 .location-row>div {padding: 10px}
+.location-row>div>img {height: 30px}
 .place-description {
   text-align: left;
   flex:5 !important;
