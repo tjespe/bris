@@ -86,4 +86,18 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     divs[i].setAttribute('style', 'display:block');
   }
 
+  // This function loads CSS from a URL and puts it in a <style> element in the HTML code
+  function loadCSS (url) {
+    if (typeof localStorage[url] !== 'undefined') {
+      vm.css += localStorage[url];
+    } else {
+      $http.get(url).success((data)=>{
+        vm.css += data;
+        localStorage[url] = data;
+      });
+    }
+  }
+  loadCSS("/static/css/ubuntu.php");
+  loadCSS("/static/css/glyphicons.min.css");
+
 }]);

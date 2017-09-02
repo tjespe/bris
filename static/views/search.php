@@ -14,7 +14,6 @@ if($norsk){
 
  ?>
 
-<lazy ng-if="master.lazyModulesLoaded"><lazy ng-controller="lazyStuff"></lazy></lazy>
 <div ng-if="master.lazyModulesLoaded">
   <div ng-controller="searchController as s">
     <input type="text" ng-model="s.query" placeholder="<?= $text->{'typeLocation'} ?>" ng-keyup="s.search()">

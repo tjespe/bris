@@ -30,7 +30,7 @@ $t8 = round(microtime(true) * 1000000) - $start;
 $js = $minifier->minify();
 $js .= ";app.value('version', $version)";
 
-$lmin = new Minify\JS($path.'/controllers/lazyStuff.js');
+$lmin = new Minify\JS($path.'/controllers/weatherCtrl.js');
 //$lmin->add($path.'/services/local-storage.js');
 //$lmin->add($path.'/directives/embedSrc.js');
 //$lmin->add($path.'/directives/scroll.js');

@@ -1,6 +1,6 @@
-app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', function ($http, $scope, $window, $location) {
+app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', function ($http, $scope, $window, $location) {
   let vm = this;
-  console.log("lazyStuff is executings");
+  console.log("weatherCtrl is executings");
   $scope.master.data = [];
   vm.timezone = -(new Date().getTimezoneOffset()/60);
   vm.rawdata = [];
@@ -255,20 +255,6 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', function
     return 1;
     return 0;
   }
-
-  // This function loads CSS from a URL and puts it in a <style> element in the HTML code
-  function loadCSS (url) {
-    if (typeof localStorage[url] !== 'undefined') {
-      $scope.master.css += localStorage[url];
-    } else {
-      $http.get(url).success((data)=>{
-        $scope.master.css += data;
-        localStorage[url] = data;
-      });
-    }
-  }
-  loadCSS("/static/css/ubuntu.php");
-  loadCSS("/static/css/glyphicons.min.css");
 
   // Count and save how many times user has visited the website
   if (typeof(Storage) !== "undefined") {
