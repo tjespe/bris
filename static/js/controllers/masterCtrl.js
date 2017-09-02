@@ -56,8 +56,11 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     }
     return input;
   }
-  vm.toggle = function (day, group) {
+  /*vm.toggle = function (day, group) {
     vm.data[day].showFull[group] = !vm.data[day].showFull[group];
+  }*/
+  vm.toggle = (i, j)=>{
+    if (vm.data[i].data[j].data.length > 0) vm.data[i].data[j].currently_summarized = !vm.data[i].data[j].currently_summarized;
   }
 
   // Load the rest of the javascript code

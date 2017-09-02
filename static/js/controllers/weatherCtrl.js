@@ -1,6 +1,5 @@
 app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', function ($http, $scope, $window, $location) {
   let vm = this;
-  console.log("weatherCtrl is executings");
   $scope.master.data = [];
   vm.timezone = -(new Date().getTimezoneOffset()/60);
   vm.rawdata = [];
@@ -23,7 +22,6 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
       $scope.master.hideFlipDeviceTip = false;
     }
 
-    console.log("At line 25");
     if ($location.path().length > 3) {
       fetchUsingPlaceName()
     } else {
@@ -57,179 +55,114 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
     }
 
     function processData() {
-      var data = vm.rawdata;
-      var ndata = {};
-      var path = "/static/img/modern-icons/";
-      for (var i = 0; i < data.length; i++) {
-        var icon = data[i].icon;
-        data[i].offset = false;
-        data[i].showImg = true;
+      /* semi_processed_data is an array where the index is the numbered day of the month, and the element contains all data for this date */
+      let semi_processed_data = [];
+      let imgs_path = "/static/img/modern-icons/";
+      for (let i = 0; i < vm.rawdata.length; i++) {
+        let icon = vm.rawdata[i].icon;
+        vm.rawdata[i].offset = false;
+        vm.rawdata[i].showImg = true;
         if (/^[\d]+$/.test(icon)) {
-          data[i].background = "";
-          data[i].foreground = path+icon+".png";
+          vm.rawdata[i].background = "";
+          vm.rawdata[i].foreground = imgs_path+icon+".png";
         } else if (/^\d+d$/.test(icon)) {
           if (icon == "01d") {
-            data[i].background = "";
-            data[i].foreground = path+"01db.png";
+            vm.rawdata[i].background = "";
+            vm.rawdata[i].foreground = imgs_path+"01db.png";
           } else if (icon == "02d") {
-            data[i].background = path+"01db.png";
-            data[i].foreground = path+"02f.png";
+            vm.rawdata[i].background = imgs_path+"01db.png";
+            vm.rawdata[i].foreground = imgs_path+"02f.png";
           } else {
-            data[i].background = path+"db.png";
-            data[i].foreground = path+icon.substring(0,2)+"f.png";
+            vm.rawdata[i].background = imgs_path+"db.png";
+            vm.rawdata[i].foreground = imgs_path+icon.substring(0,2)+"f.png";
           }
         } else if (/^\d+m$/.test(icon)) {
           if (icon == "01m") {
-            data[i].background = path+"01mb.png";
+            vm.rawdata[i].background = imgs_path+"01mb.png";
           } else {
-            data[i].background = path+"mb.png";
+            vm.rawdata[i].background = imgs_path+"mb.png";
           }
-          data[i].foreground = path+icon.substring(0,2)+"f.png";
+          vm.rawdata[i].foreground = imgs_path+icon.substring(0,2)+"f.png";
         } else if (/^mf\/\d+n\.\d+$/.test(icon)) {
           var phase = icon.substring(7,9);
           if (!/^mf\/0[12]n\.\d{2}$/.test(icon)) {
-            data[i].offset = true;
+            vm.rawdata[i].offset = true;
           }
-          data[i].phase = findPhase(phase);
+          vm.rawdata[i].phase = findPhase(phase);
           if (icon.substring(3,5)==="01") {
-            data[i].showImg = false;
+            vm.rawdata[i].showImg = false;
           } else {
-            data[i].foreground = path+icon.substring(3,5)+"f.png";
+            vm.rawdata[i].foreground = imgs_path+icon.substring(3,5)+"f.png";
           }
         }
-        let weekday_name = $scope.master.textData.weekdays[data[i].day];
-        if (ndata.hasOwnProperty(weekday_name) && data[i].date !== ndata[weekday_name][0].date) {
-          if (ndata.hasOwnProperty(weekday_name+" ")) {
-            ndata[weekday_name+" "].push(data[i]);
-          } else {
-            ndata[weekday_name+" "] = [data[i]];
-          }
-        } else if (ndata.hasOwnProperty(weekday_name)) {
-            ndata[weekday_name].push(data[i]);
-        } else {
-            ndata[weekday_name] = [data[i]];
-        }
+        let date = Number(vm.rawdata[i].date);
+        if (typeof semi_processed_data[date] === "undefined") semi_processed_data[date] = [];
+        semi_processed_data[date].push(vm.rawdata[i]);
       }
-      var processed_data = [];
-      var i = 0;
-      for (var day in ndata) {
-        var summaryHours = [[], [], [], []];
-        var showSummaries = [false, false, false, false];
-        for (var j = 0; j < ndata[day].length; j++) {
-          if (ndata[day][j].hourTo > ndata[day][j].hour && ndata[day][j].hourTo<=6) {
-            summaryHours[0].push(ndata[day][j]);
-            ndata[day][j].summarized = true;
-            ndata[day][j].group = 0;
-          } else if (ndata[day][j].hourTo > ndata[day][j].hour && ndata[day][j].hour>=6 && ndata[day][j].hourTo<=12) {
-            summaryHours[1].push(ndata[day][j]);
-            ndata[day][j].summarized = true;
-            ndata[day][j].group = 1;
-          } else if (ndata[day][j].hourTo > ndata[day][j].hour && ndata[day][j].hour>=12 && ndata[day][j].hourTo<=18) {
-            summaryHours[2].push(ndata[day][j]);
-            ndata[day][j].summarized = true;
-            ndata[day][j].group = 2;
-          } else if ((ndata[day][j].hourTo == "00" || ndata[day][j].hourTo > ndata[day][j].hour) && ndata[day][j].hour>=18 && (ndata[day][j].hourTo<=24 || ndata[day][j].hourTo == "00")) {
-            summaryHours[3].push(ndata[day][j]);
-            ndata[day][j].summarized = true;
-            ndata[day][j].group = 3;
+      /* processed_data is an array of days ordered chronologically */
+      let processed_data = [];
+      let date = new Date().getUTCDate();
+      let days_this_month = new Date(new Date().getFullYear(), new Date().getUTCMonth(), 0).getDate();
+      for (let _i_ = date; _i_ < date+days_this_month; _i_++) {
+        let i = _i_ > days_this_month ? _i_ - days_this_month : _i_;
+        if (typeof semi_processed_data[i] !== "undefined") {
+          let obj = {"data":[]};
+          let weekday_num;
+          if (semi_processed_data[i].length > 4) {
+            // Loop through the hours in the day and add them to their respective periods
+            for (let j = 0; j < semi_processed_data[i].length; j++) {
+              let hour = Number(semi_processed_data[i][j].hour);
+              let period = hour < 6 ? 0 : hour < 12 ? 1 : hour < 18 ? 2 : 3;
+              if (typeof obj.data[period] === "undefined") obj.data[period] = {"data":[]};
+              obj.data[period].data.push(semi_processed_data[i][j]);
+            }
+            // Remove undefined elements from array
+            obj.data.clean();
+            // Loop through the periods and add info such as average weather
+            for (let period = 0; period < obj.data.length; period++) {
+              let first_child = obj.data[period].data[0];
+              let last_child = obj.data[period].data.slice(-1)[0];
+              obj.data[period].hour = first_child.hour;
+              obj.data[period].hourTo = last_child.hour;
+              obj.data[period].background = first_child.background;
+              obj.data[period].foreground = first_child.foreground;
+              obj.data[period].icon = first_child.icon;
+              obj.data[period].offset = first_child.offset;
+              obj.data[period].phase = first_child.phase;
+              // Set summarizeable to true because we have hour by hour forecast for this day
+              obj.data[period].summarizeable = true;
+              obj.data[period].currently_summarized = true;
+              // Calculate average temperature, precipitation and wind
+              let temperature_sum = 0;
+              let precipitation_sum = 0;
+              let wind_sum = 0;
+              for (var j = 0; j < obj.data[period].data.length; j++) {
+                temperature_sum += Number(obj.data[period].data[j].degs);
+                precipitation_sum += Number(obj.data[period].data[j].precipitation);
+                wind_sum += Number(obj.data[period].data[j].wind);
+              }
+              obj.data[period].degs = Math.round(temperature_sum / obj.data[period].data.length);
+              obj.data[period].precipitation = precipitation_sum;
+              obj.data[period].wind = Math.round(wind_sum / obj.data[period].data.length);
+            }
+            weekday_num = new Date(obj.data[0].data[0].unix * 1000).getDay();
+            obj.day = $scope.master.textData.weekdays[weekday_num > 0 ? weekday_num - 1 : 6];
           } else {
-            ndata[day][j].summarized = false;
-            ndata[day][j].group = 0;
-          }
-        }
-        var summaries = [
-          {},
-          {},
-          {},
-          {}
-        ];
-
-        for (var key = 0; key < summaryHours.length; key++) {
-          if (summaryHours[key].length > 0) {
-            showSummaries[key] = true;
-            var totdegs = 0;
-            var totprecip = 0;
-            var totwind = 0;
-            for (var j = 0; j < summaryHours[key].length; j++) {
-              totdegs += summaryHours[key][j].degs;
-              totprecip = totprecip*1 + summaryHours[key][j].precipitation*1;
-              totwind = totwind*1 + summaryHours[key][j].wind*1;
-            }
-            var avdegs = Math.round(totdegs / summaryHours[key].length);
-            var avwind = Math.round(totwind / summaryHours[key].length * 10)/10;
-            totprecip = Math.round(totprecip*10)/10;
-            summaries[key] = {
-              hour: summaryHours[key][0].hour,
-              hourTo: summaryHours[key][summaryHours[key].length - 1].hourTo,
-              background: summaryHours[key][0].background,
-              foreground: summaryHours[key][0].foreground,
-              showImg: summaryHours[key][0].showImg,
-              icon: summaryHours[key][0].icon,
-              degs: avdegs,
-              precipitation: totprecip,
-              wind: avwind
+            obj.data = semi_processed_data[i];
+            for (let period = 0; period < obj.data.length; period++) {
+              obj.data[period].data = [];
+              // Set summarizeable to false because we do not have hour by hour forecast for this day
+              obj.data[period].summarizeable = false;
+              obj.data[period].currently_summarized = true;
             };
-            if (/^mf\/\d+n\.\d+$/.test(summaryHours[key][0].icon)) {
-              summaries[key].phase = summaryHours[key][0].phase;
-            }
+            weekday_num = new Date(obj.data[0].unix * 1000).getDay();
           }
+          obj.day = $scope.master.textData.weekdays[weekday_num > 0 ? weekday_num - 1 : 6];
+          processed_data.push(obj);
         }
-
-        processed_data[i] = {
-          day: day,
-          showFull: [false, false, false, false],
-          index: i,
-          periods: [],
-          data: ndata[day]
-        };
-        for (var j = 0; j < summaries.length; j++) {
-          if (showSummaries[j]) {
-            processed_data[i].periods.push({
-              summary: summaries[j],
-              showSummary: true,
-              data: summaryHours[j]
-            });
-          }
-        }
-        for (var j = 0; j < processed_data[i].data.length; j++) {
-          if (!processed_data[i].data[j].summarized) {
-            processed_data[i].periods.push({
-              showSummary: false,
-              data: [processed_data[i].data[j]]
-            });
-          }
-        }
-        for (var j = 0; j < processed_data[i].periods.length; j++) {
-          processed_data[i].periods[j].group = processed_data[i].periods[j].data[0].group;
-        }
-        processed_data[i].periods.sort(compare);
-        i++;
       }
       $scope.master.data = processed_data;
-      console.log("Værdataen er behandlet, resultat:", $scope.master.data);
-      if (initialJSON.noNeed || $scope.master.ifHome()) {
-        var i = $location.path();
-        $scope.master.recents[i] = {
-          data: $scope.master.data,
-          info: {
-            url: $location.path(),
-            location: $scope.master.location,
-            savedAt: Date.now()
-          }
-        }
-        if (typeof (Storage) !== "undefined") {
-          console.log("Browser supports localStorage, pushing",$scope.master.recents,"to localStorage.recents");
-          console.log("delete $scope.master.recents.toJson()",delete $scope.master.recents.toJSON);
-          localStorage.recents = JSON.stringify($scope.master.recents);
-        }
-      }
-      console.log("Recents:", $scope.master.recents);
-
-
-      function findPhase (x) {
-        if (x<=50) return (-x)*0.5;
-        return 25-(x-50)*0.5;
-      }
+      console.log("This is data processed using the new function:",processed_data);
     }
   }
 
@@ -256,10 +189,26 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
     return 0;
   }
 
+  // This function finds the moon phase from a code (x)
+  function findPhase (x) {
+    if (x<=50) return (-x)*0.5;
+    return 25-(x-50)*0.5;
+  }
+
   // Count and save how many times user has visited the website
   if (typeof(Storage) !== "undefined") {
     let visits = localStorage.visits || 0;
     localStorage.visits = Number(visits) + 1;
   }
 
+  // This function adds a function to the native array prototype object, which can delete all empty elements
+  Array.prototype.clean = function(valute_to_delete) {
+    for (let i = 0; i < this.length; i++) {
+      if (this[i] == valute_to_delete) {
+        this.splice(i, 1);
+        i--;
+      }
+    }
+    return this;
+  };
 }]);

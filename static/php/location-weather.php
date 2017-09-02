@@ -50,6 +50,7 @@ foreach ($data->{'product'}->{'time'} as $obj ) {
     $forecast[$id]['hour'] = date('H', $time + (60*60*$gmt));
     $forecast[$id]['day'] = date('w', $time + (60*60*$gmt));
     $forecast[$id]['date'] = date('d', $time + (60*60*$gmt));
+    $forecast[$id]['unix'] = $time + (60*60*$gmt);
     $forecast[$id]['degs'] = ((int) $obj->{'location'}->{'temperature'}->{'@attributes'}->{'value'});
     $forecast[$id]['meta'] = array(
       "daytime" => $time > $sunrise && $time < $sunset || date_sunrise($time, SUNFUNCS_RET_STRING, $_GET['lat'], $_GET['long'], ini_get("date.sunrise_zenith"), $gmt) == false,
