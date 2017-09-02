@@ -132,7 +132,6 @@ moon[offset=true] {
   cursor: pointer;
 }
 .expand-btn:hover {color:#286090}
-.expand-btn>span:hover {cursor: pointer}
 .expand-btn>span {display: block}
 
 /* Search form CSS */
