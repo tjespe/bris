@@ -25,9 +25,9 @@ https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js
 /static/js/initial.min.js
 /static/js/initialJSON.php
 /static/img/background.jpg
-/static/views/search.php
-/static/views/home.php
-/static/html/cookie-box.php
+/static/views/search.html
+/static/views/home.html
+/static/html/cookie-box.html
 /static/img/loading.svg
 <?php foreach ($wicons as $wicon ) { ?>
 /static/img/modern-icons/<?= $wicon ?>

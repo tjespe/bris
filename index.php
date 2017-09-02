@@ -62,7 +62,7 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
 
 
   <lazy ng-if="master.lazyModulesLoaded">
-    <div ng-include="'/static/html/cookie-box.php'" ng-controller="cookieCtrl as c"></div>
+    <div ng-include="'/static/html/cookie-box.html'" ng-controller="cookieCtrl as c"></div>
   </lazy>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js"></script>

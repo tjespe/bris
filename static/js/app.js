@@ -4,23 +4,11 @@ app.value('domain', !location.host.includes(":") ? location.host.match(/[w]{3}?\
 app.config(["$routeProvider", "$sceProvider", "$locationProvider", '$controllerProvider', '$provide', '$compileProvider', '$filterProvider', '$sceDelegateProvider', function($routeProvider, $sceProvider, $locationProvider, $controllerProvider, $provide, $compileProvider, $filterProvider, $sceDelegateProvider) {
 
   $routeProvider
-  .when('/', {
-    templateUrl: '/static/views/home.php'
-  })
   .when('/search', {
-    templateUrl: '/static/views/search.php'
-  })
-  .when('/Norge/:fylke/:kommune/:sted', {
-    templateUrl: '/static/views/home.php'
-  })
-  .when('/Norway/:fylke/:kommune/:sted', {
-    templateUrl: '/static/views/home.php'
-  })
-  .when('/:country/:region/:place', {
-    templateUrl: '/static/views/home.php'
+    templateUrl: '/static/views/search.html'
   })
   .otherwise({
-    templateUrl: '/static/views/home.php'
+    templateUrl: '/static/views/home.html'
   });
   $sceProvider.enabled(true);
 
