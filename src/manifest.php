@@ -20,7 +20,7 @@ CACHE MANIFEST
 CACHE:
 /
 /src/manifest.php
-index.php
+index.html
 https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js
 /src/js/initial.min.js
 /src/js/initialJSON.php

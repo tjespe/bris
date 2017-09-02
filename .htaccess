@@ -1,4 +1,4 @@
-DirectoryIndex index.php
+DirectoryIndex index.html
 
 RewriteEngine on
 
@@ -11,7 +11,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
 # Rewrite everything else to index.html to allow html5 state links
-RewriteRule ^ index.php [L]
+RewriteRule ^ index.html [L]
 
 # Turn on Expires and set default expires to 3 days
 ExpiresActive On
@@ -47,8 +47,8 @@ ExpiresDefault A259200
   Header append Cache-Control "public, must-revalidate"
 </FilesMatch>
 
-# Set up a week caching of index.php
-<FilesMatch "index.php">
+# Set up a week caching of index.html
+<FilesMatch "index.html">
   ExpiresDefault A604800
   Header append Cache-Control "public"
 </FilesMatch>
