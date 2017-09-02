@@ -10,6 +10,9 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.location = "";
   vm.recents = {};
 
+  vm.width = $window.innerWidth;
+  vm.height = $window.innerHeight;
+
   vm.textData = {};
   vm.availableLangs = ['en','no'];
   vm.lang = navigator.language;
@@ -56,11 +59,11 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     }
     return input;
   }
-  /*vm.toggle = function (day, group) {
-    vm.data[day].showFull[group] = !vm.data[day].showFull[group];
-  }*/
   vm.toggle = (i, j)=>{
     if (vm.data[i].data[j].data.length > 0) vm.data[i].data[j].currently_summarized = !vm.data[i].data[j].currently_summarized;
+  }
+  vm.ifNoForeground = (data)=>{
+    return typeof data.foreground === "undefined" || data.foreground.length < 1;
   }
 
   // Load the rest of the javascript code

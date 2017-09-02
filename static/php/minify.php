@@ -21,7 +21,6 @@ $minifier = new Minify\JS($path.'/app.js');
 //$minifier->add($path.'/services/loading-bar.min.js');
 //$minifier->add($path.'/scripts/analytics.js');
 $minifier->add($path.'/controllers/masterCtrl.js');
-$minifier->add($path.'/controllers/viewCtrl.js');
 //$minifier->add($path.'/directives/embedSrc.js');
 //$minifier->add($path.'/directives/scroll.js');
 $minifier->add($path.'/directives/para-back.js');

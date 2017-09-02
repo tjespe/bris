@@ -18,7 +18,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
     $scope.master.data = $scope.master.recents[$location.path()].data;
   } else { // Get data from a server
     // When master.hideFlipDeviceTip is set to false, a tip is shown to the user, telling them to flip their phone to see more weather data
-    if ((typeof(Storage) === "undefined" || (typeof(Storage) !== "undefined" && localStorage.hideFlipDeviceTip != "true")) && $scope.view.width <= 515) {
+    if ((typeof(Storage) === "undefined" || (typeof(Storage) !== "undefined" && localStorage.hideFlipDeviceTip != "true")) && window.innerWidth <= 515) {
       $scope.master.hideFlipDeviceTip = false;
     }
 
@@ -58,9 +58,9 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
   // Adjust background when window is resized
   angular.element($window).on('resize', function () {
     $scope.$apply(function(){
-      $scope.view.height = window.innerHeight;
-      $scope.view.width = window.innerWidth;
-      if ($scope.view.width > 515) {
+      $scope.master.height = window.innerHeight;
+      $scope.master.width = window.innerWidth;
+      if ($scope.master.width > 515) {
         $scope.master.hideFlipDeviceTip = true;
         if (typeof(Storage) !== "undefined") {
           localStorage.hideFlipDeviceTip = true;

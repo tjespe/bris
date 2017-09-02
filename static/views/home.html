@@ -1,15 +1,15 @@
 <section ng-hide="master.fail" ng-if="master.lazyModulesLoaded" ng-controller="weatherCtrl as w">
   <h3 ng-if="master.weatherLoaded()" ng-bind="::master.textData.showingWFor + ' ' + master.location"></h3>
   <ul class="list-group" ng-if="!master.hideFlipDeviceTip">
-    <li class="list-group-item list-group-item-info" ng-if="view.width<=515" ng-show="master.weatherLoaded()" ng-bind="::master.textData.rotateTip"></li>
+    <li class="list-group-item list-group-item-info" ng-if="master.width<=515" ng-show="master.weatherLoaded()" ng-bind="::master.textData.rotateTip"></li>
   </ul>
   <div ng-if="master.weatherLoaded()" ng-cloak>
     <div class="row semi-row" id="table-header">
       <div ng-bind="::master.textData.time"></div>
       <div ng-bind="::master.textData.weather"></div>
       <div ng-bind="::master.textData.degrees"></div>
-      <div ng-if="view.width>413" ng-bind="::master.textData.precipitation"></div>
-      <div ng-if="view.width>515" ng-bind="::master.textData.windSpeed"></div>
+      <div ng-if="master.width>413" ng-bind="::master.textData.precipitation"></div>
+      <div ng-if="master.width>515" ng-bind="::master.textData.windSpeed"></div>
     </div>
     <div ng-repeat="(i, day) in master.data">
       <div class="dateshift row semi-row" ng-if="i > 0"><div ng-bind="::day.day"></div></div>
@@ -21,25 +21,25 @@
           </div>
           <div>
             <span>
-              <moon ng-if="period.icon.indexOf('mf') > -1" offset="{{::period.offset}}" style="{{'box-shadow: #ffe599 '+period.phase+'px 0px inset;'}}"></moon>
+              <moon ng-if="period.icon.indexOf('mf') > -1" offset="{{::period.offset}}" style="{{'box-shadow: #ffe599 '+period.phase+'px 0px inset;'}}" ng-class="{'moon-alone':master.ifNoForeground(period)}"></moon>
               <img class="weather-icon" ng-src="{{::period.foreground}}" style="{{::'background-image:url('+period.background+');'}}" ng-class="{'background-offset':period.offset}">
             </span>
           </div>
           <div><span ng-bind="::period.degs+'ºC'"></span></div>
-          <div ng-if="view.width > 413"><span ng-bind="::period.precipitation+' mm'"></span></div>
-          <div ng-if="view.width > 515"><span ng-bind="::period.wind+' m/s'"></span></div>
+          <div ng-if="master.width > 413"><span ng-bind="::period.precipitation+' mm'"></span></div>
+          <div ng-if="master.width > 515"><span ng-bind="::period.wind+' m/s'"></span></div>
         </div>
         <div class="row" ng-repeat="hour in period.data track by $index" ng-class="{'summarized':period.summarizeable,'show-row':!period.currently_summarized}">
           <div><span ng-bind="::master.textData.kl+hour.hour+'-'+hour.hourTo"></span></div>
           <div>
             <span>
-              <moon ng-if="hour.icon.indexOf('mf') > -1" offset="{{::hour.offset}}" style="{{'box-shadow: #ffe599 '+hour.phase+'px 0px inset;'}}" ng-class="{'moon-alone':!hour.showImg}"></moon>
-              <img ng-if="hour.showImg" class="weather-icon" ng-src="{{::hour.foreground}}" style="{{::'background-image:url('+hour.background+');'}}" ng-class="{'background-offset':hour.offset}">
+              <moon ng-if="hour.icon.indexOf('mf') > -1" offset="{{::hour.offset}}" style="{{'box-shadow: #ffe599 '+hour.phase+'px 0px inset;'}}" ng-class="{'moon-alone':master.ifNoForeground(hour)}"></moon>
+              <img class="weather-icon" ng-src="{{::hour.foreground}}" style="{{::'background-image:url('+hour.background+');'}}" ng-class="{'background-offset':hour.offset}">
             </span>
           </div>
           <div><span ng-bind="::hour.degs+'ºC'"></span></div>
-          <div ng-if="view.width>413"><span ng-bind="::hour.precipitation+' mm'"></span></div>
-          <div ng-if="view.width>515"><span ng-bind="::hour.wind+' m/s'"></span></div>
+          <div ng-if="master.width>413"><span ng-bind="::hour.precipitation+' mm'"></span></div>
+          <div ng-if="master.width>515"><span ng-bind="::hour.wind+' m/s'"></span></div>
         </div>
       </div>
     </div>

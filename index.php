@@ -41,7 +41,7 @@ $location = str_replace("%20"," ",str_replace("%C3%85","Å",str_replace("%C3%98"
   <style ng-bind="master.css"></style>
 </head>
 
-<body ng-controller="viewCtrl as view" ontouchstart para-back="/static/img/background.jpg" style="background-image:url(/static/img/background.jpg)">
+<body ontouchstart para-back="/static/img/background.jpg" style="background-image:url(/static/img/background.jpg)">
 
     <header>
       <h1><?= $text->{'header'} ?></h1>
