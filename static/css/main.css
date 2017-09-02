@@ -127,7 +127,10 @@ moon[offset=true] {
   flex:1;
 	border: 1px solid #ddd;
 }
-.expand-btn {color: #337ab7}
+.expand-btn {
+  color: #337ab7;
+  cursor: pointer;
+}
 .expand-btn:hover {color:#286090}
 .expand-btn>span:hover {cursor: pointer}
 .expand-btn>span {display: block}
