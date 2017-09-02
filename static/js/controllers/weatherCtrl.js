@@ -158,7 +158,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
               wind_sum += Number(obj.data[period].data[j].wind);
             }
             obj.data[period].degs = Math.round(temperature_sum / obj.data[period].data.length);
-            obj.data[period].precipitation = precipitation_sum;
+            obj.data[period].precipitation = Math.round(precipitation_sum * 100)/100;
             obj.data[period].wind = Math.round(wind_sum / obj.data[period].data.length);
           }
           weekday_num = new Date(obj.data[0].data[0].unix * 1000).getDay();
