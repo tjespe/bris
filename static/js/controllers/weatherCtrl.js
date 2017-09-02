@@ -162,7 +162,18 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
         }
       }
       $scope.master.data = processed_data;
-      console.log("This is data processed using the new function:",processed_data);
+      // Add data to master.recents object so it does not have to be reloaded
+      $scope.master.recents[$location.path()] = {
+        data: processed_data,
+        info: {
+          url: $location.path(),
+          location: $scope.master.location,
+          savedAt: Date.now()
+        }
+      }
+      if (typeof (Storage) !== "undefined") {
+        localStorage.recents = JSON.stringify($scope.master.recents);
+      }
     }
   }
 
