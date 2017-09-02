@@ -15,8 +15,7 @@ if($norsk){
 
  ?>
 
-<lazy ng-if="master.lazyModulesLoaded"><lazy ng-controller="weatherCtrl"></lazy></lazy>
-<section ng-hide="master.fail">
+<section ng-hide="master.fail" ng-if="master.lazyModulesLoaded" ng-controller="weatherCtrl as w">
   <h3 ng-if="master.weatherLoaded()"><?= $text->{'showingWFor'} ?> {{master.location}}</h3>
   <ul class="list-group" ng-if="!master.hideFlipDeviceTip">
     <li class="list-group-item list-group-item-info" ng-if="view.width<=515" ng-show="master.weatherLoaded()"><?= $text->{'rotateTip'} ?></li>
