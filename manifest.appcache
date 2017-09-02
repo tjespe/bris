@@ -1,0 +1,74 @@
+CACHE MANIFEST
+
+# Offline Cache version 13
+
+CACHE:
+/
+/src/manifest.php
+index.html
+https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js
+/src/js/initial.min.js
+/src/js/initialJSON.php
+/src/img/background.jpg
+/src/views/search.html
+/src/views/home.html
+/src/html/cookie-box.html
+/src/img/loading.svg
+/src/img/modern-icons/01db.png
+/src/img/modern-icons/01mb.png
+/src/img/modern-icons/02f.png
+/src/img/modern-icons/03f.png
+/src/img/modern-icons/04.png
+/src/img/modern-icons/05f.png
+/src/img/modern-icons/06f.png
+/src/img/modern-icons/07f.png
+/src/img/modern-icons/08f.png
+/src/img/modern-icons/09.png
+/src/img/modern-icons/10.png
+/src/img/modern-icons/11.png
+/src/img/modern-icons/12.png
+/src/img/modern-icons/13 (1).png
+/src/img/modern-icons/13.png
+/src/img/modern-icons/14.png
+/src/img/modern-icons/15.png
+/src/img/modern-icons/20f.png
+/src/img/modern-icons/21f (1).png
+/src/img/modern-icons/21f.png
+/src/img/modern-icons/22.png
+/src/img/modern-icons/23.png
+/src/img/modern-icons/24f.png
+/src/img/modern-icons/25f.png
+/src/img/modern-icons/26f.png
+/src/img/modern-icons/27f.png
+/src/img/modern-icons/28f.png
+/src/img/modern-icons/29f.png
+/src/img/modern-icons/30.png
+/src/img/modern-icons/31.png
+/src/img/modern-icons/32.png
+/src/img/modern-icons/33.png
+/src/img/modern-icons/34.png
+/src/img/modern-icons/40f.png
+/src/img/modern-icons/41f.png
+/src/img/modern-icons/42f.png
+/src/img/modern-icons/43f (1).png
+/src/img/modern-icons/43f.png
+/src/img/modern-icons/44f.png
+/src/img/modern-icons/45f.png
+/src/img/modern-icons/46.png
+/src/img/modern-icons/47.png
+/src/img/modern-icons/48 (1).png
+/src/img/modern-icons/48.png
+/src/img/modern-icons/49 (1).png
+/src/img/modern-icons/49.png
+/src/img/modern-icons/50.png
+/src/img/modern-icons/db.png
+/src/img/modern-icons/mb.png
+https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
+/fonts/glyphicons-halflings-regular.woff2
+
+NETWORK:
+*
+http://*
+https://*
+
+FALLBACK:
