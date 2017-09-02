@@ -17,11 +17,11 @@ if($norsk){
 
 <lazy ng-if="master.lazyModulesLoaded"><lazy ng-controller="lazyStuff"></lazy></lazy>
 <section ng-hide="master.fail">
-  <h3 ng-if="master.weatherDataLoaded"><?= $text->{'showingWFor'} ?> {{master.location}}</h3>
-  <ul class="list-group" ng-if="!master.deviceTurned">
-    <li class="list-group-item list-group-item-info" ng-if="view.width<=515" ng-show="master.weatherDataLoaded"><?= $text->{'rotateTip'} ?></li>
+  <h3 ng-if="master.weatherLoaded()"><?= $text->{'showingWFor'} ?> {{master.location}}</h3>
+  <ul class="list-group" ng-if="!master.hideFlipDeviceTip">
+    <li class="list-group-item list-group-item-info" ng-if="view.width<=515" ng-show="master.weatherLoaded()"><?= $text->{'rotateTip'} ?></li>
   </ul>
-  <div ng-if="master.weatherDataLoaded" ng-cloak>
+  <div ng-if="master.weatherLoaded()" ng-cloak>
     <div class="row semi-row" id="table-header">
       <div><?= $text->{'time'} ?></div>
       <div><?= $text->{'weather'} ?></div>
@@ -65,9 +65,8 @@ if($norsk){
       </div>
     </div>
   </div>
-  <span ng-show="master.yrCredit" ng-if="master.weatherDataLoaded"><?= $text->{'weatherCredit'} ?></span>
-  <span ng-hide="master.yrCredit" ng-if="master.weatherDataLoaded"><?= $text->{'metCredit'} ?></span>
+  <span ng-if="master.weatherLoaded()"><?= $text->{'metCredit'} ?></span>
 </section>
 
-<img src="/static/img/loading.svg" class="loader" ng-if="!master.weatherDataLoaded" />
+<img src="/static/img/loading.svg" class="loader" ng-if="!master.weatherLoaded()" />
 <ul class="list-group" ng-if="master.fail" style="margin-bottom: 0px;margin-top: 20px;"><li class="list-group-item list-group-item-danger"><?= $text->{'fetchFail'} ?></li></ul>

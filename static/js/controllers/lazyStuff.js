@@ -1,19 +1,11 @@
-app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain', function ($http, $scope, $window, $location, domain) {
-
-  console.log("Executing lazyStuff.js");
-
-  var master = $scope.master;
-  var vm = this;
-  $scope.master.fail = false;
+app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', function ($http, $scope, $window, $location) {
+  let vm = this;
+  console.log("lazyStuff is executings");
   $scope.master.data = [];
-  $scope.master.weatherDataLoaded = false;
   vm.timezone = -(new Date().getTimezoneOffset()/60);
-  vm.zip = 0;
   vm.rawdata = [];
-  $scope.master.yrCredit = true;
-  initialJSON.noNeed = /\/([\w%-]+\/){2,3}[\w%-]+\/?/i.test(window.location.pathname) || /^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|(?=$))){4}$/.test(window.location.pathname);
-  vm.dataExist = false;
-  vm.recentIndex = 0;
+
+  // Delete outdated weather data
   for (var index in $scope.master.recents) {
     if ($scope.master.recents.hasOwnProperty(index)) {
       if (Date.now()-$scope.master.recents[index].info.savedAt>1800000 && navigator.onLine) {
@@ -21,195 +13,51 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
       }
     }
   }
-  if ($scope.master.recents.hasOwnProperty($location.path())) {
-    vm.dataExist = true;
-    vm.recentIndex = $location.path();
-  }
 
-  if (!vm.dataExist) {
-    console.log("Didn't find data in recent data, making requests to server...");
-    if ((typeof(Storage) === "undefined" || (typeof(Storage) !== "undefined" && localStorage.deviceTurned != "true")) && $scope.view.width <= 515) {
-      $scope.master.deviceTurned = false;
+  if ($scope.master.recents.hasOwnProperty($location.path())) { // Get data from localStorage
+    $scope.master.location = $scope.master.recents[$location.path()].info.location;
+    $scope.master.data = $scope.master.recents[$location.path()].data;
+  } else { // Get data from a server
+    // When master.hideFlipDeviceTip is set to false, a tip is shown to the user, telling them to flip their phone to see more weather data
+    if ((typeof(Storage) === "undefined" || (typeof(Storage) !== "undefined" && localStorage.hideFlipDeviceTip != "true")) && $scope.view.width <= 515) {
+      $scope.master.hideFlipDeviceTip = false;
     }
 
-    var fra, til, i, exact;
-    if ($scope.master.norsk) {
-      vm.days = ['Søndag', 'Mandag', 'Tirsdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lørdag'];
-      fra = "fra";
-      til = "til";
-      i = " i ";
-      exact = "din posisjon";
+    console.log("At line 25");
+    if ($location.path().length > 3) {
+      fetchUsingPlaceName()
     } else {
-      vm.days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      fra = "from";
-      til = "to";
-      i = ", ";
-      exact = "your exact position";
-    }
-
-    $scope.master.disabled = false;
-
-    vm.weatherWarning = false;
-    vm.yrString = "";
-
-    var wsuf = "";
-    if (window.location.search.indexOf('lang=no')>-1) wsuf = '&lang=no';
-    if (window.location.search.indexOf('lang=en')>-1) wsuf = '&lang=en';
-
-    function getLocation() {
-      if (!/\/([\w%-]+\/){2,3}[\w%-]+\/?/i.test(window.location.pathname) && !/^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|(?=$))){4}$/.test(window.location.pathname)) {
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(posSuccess, posErr);
-        } else {
-          console.log("Geolocation is not supported by this browser.");
-          manualFetch();
-        }
+      if (navigator.geolocation) {
+        console.log("Trying to fetch position");
+        navigator.geolocation.getCurrentPosition(fetchUsingPosition, fetchUsingApproxPosition);
       } else {
-        manualFetch();
+        fetchUsingApproxPosition();
       }
     }
 
-    function posSuccess(position) {
-      if (!/\/([\w%-]+\/){2,3}[\w%-]+\/?/i.test(window.location.pathname) && !/^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|(?=$))){4}$/.test(window.location.pathname)) {
-        console.log("Position accessed successfully", position);
-        $scope.master.location = exact;
-        var url = '/static/php/location-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
-        $http.get(url).success(function (data) {
-          $scope.master.yrCredit = false;
-          Array.prototype.push.apply(vm.rawdata, data.data);
-          weatherLoaded();
-        }).error(function (data, status) {
-          manualFetch();
-        });
-      } else {
-        console.log("Position accessed successfully, but will not be used because yrString is specified in URL");
-        manualFetch();
-      }
+    function fetchUsingPlaceName() {
+      alert("Fetching using place name is not implemented yet!");
     }
 
-    function posErr(status) {
-      console.log('Couldn\'t fetch position, status:',status);
-      manualFetch();
-    }
-
-    getLocation();
-
-    function manualFetch() {
-      if (!initialJSON.noNeed) {
-        console.log("noNeed == false", initialJSON.noNeed);
-        initialJSON.json.success(function (data) {
-          console.log("IP-data:", data.ipData);
-          if (data.ipData.status != "fail") {
-            vm.zip = data.ipData.zip_code;
-            var country = data.ipData.country_name.split(' ').join('_').replace("'", "’").replace('British_Virgin_Islands', 'Jomfruøyene_(Britisk)').replace(',_and', '_og').replace('Sint', 'Saint');
-            var region = data.ipData.region_name.split(' ').join('_')
-            .replace('_County', '')
-            .replace('_Fylke', '')
-            .split('_(')[0]
-            .replace('Provincie_','')
-            .replace("'", "’")
-            .replace('oe', 'ö')
-            .replace('Qarku_i_Tiranes', 'Tirana')
-            .replace('_City', '')
-            .replace('Ho_Chi_Minh', 'Hồ_Chí_Minh')
-            .replace('Thanh_Pho_Ha_Noi', 'Ha_Nội')
-            .replace('Region_du_', '')
-            .replace('_Capital_Territory', '')
-            .replace('Central_Singapore_Community_Development_Council', 'Annet');
-            var city = data.ipData.city.split(' ').join('_').split('_(')[0].replace("'", "’").replace('oe', 'ö');
-            if (region.length == 0) region = "Annet";
-            $scope.master.location = data.ipData.city;
-            if (country === 'Norway') {
-              vm.yrString = encodeURIComponent("Norge/postnummer/"+data.ipData.zip_code);
-              $scope.master.location = data.ipData.zip_code+" "+data.ipData.city;
-              console.log("YR-string:", vm.yrString);
-            } else {
-              if (data.ipData.city !== data.ipData.regionName && data.ipData.regionName.length>0) {
-                $scope.master.location = data.ipData.city+i+data.ipData.regionName;
-              }
-              vm.yrString = encodeURIComponent(country+"/"+region+"/"+city);
-              console.log("YR-string:", vm.yrString);
-            }
-            fetchWeather();
-          } else {
-            throwError()
-          }
-        }).error(function (data, status) {
-          throwError();
-        });
-      } else {
-        if (/\/([\w%-]+\/){2,3}[\w%-]+\/?/i.test(window.location.pathname)) {
-          vm.yrString = window.location.pathname.replace('/', '')
-          if (vm.yrString.split('')[vm.yrString.length - 1] == '/') {
-            vm.yrString = vm.yrString.replace(/\/([^\/]*)$/,'$1');
-          }
-          console.log("noNeed == true", initialJSON.noNeed);
-          console.log("YR-string:", vm.yrString);
-          var loc = "";
-          if (vm.yrString.split('/')[0] === "Norge" || vm.yrString.split('/')[0] === "Norway") {
-            if (vm.yrString.split('/').length < 4) {
-              vm.yrString += '/'+vm.yrString.split('/')[2]
-            }
-            if (vm.yrString.split('/')[3] !== vm.yrString.split('/')[2]) {
-              loc = vm.yrString.split('/')[3].replace(/_/g, ' ')+i+vm.yrString.split('/')[2].replace(/_/g, ' ');
-            } else {
-              loc = vm.yrString.split('/')[3].replace(/_/g, ' ');
-            }
-          } else {
-            if (vm.yrString.split('/')[2] !== vm.yrString.split('/')[1]) {
-              loc = vm.yrString.split('/')[2].replace(/_/g, ' ')+i+vm.yrString.split('/')[1].replace(/_/g, ' ');
-            } else {
-              loc = vm.yrString.split('/')[2].replace(/_/g, ' ');
-            }
-          }
-          $scope.master.location = decodeURIComponent(loc);
-        } else {
-          vm.yrString = localStorage.yrString;
-          $scope.master.location = localStorage.location;
-          console.log(localStorage.location);
-        }
-        console.log("YR-string:", vm.yrString);
-        fetchWeather();
-      }
-    }
-
-    function fetchWeather() {
-      var weatherRequest = {
-        method: 'GET',
-        url: '/static/php/weather.php?yrstring='+vm.yrString+'&d='+Math.floor(Date.now()/(3.6*10e5))+wsuf
-      };
-
-      $http(weatherRequest)
-      .then(function successCallback(response) {
-        console.log("Værdata-request fullført, skriptkjøringstid på serveren:", response.data.log, "Her er responsen:", response);
-        if (!response.data.fail) {
-          console.log("No error");
-          Array.prototype.push.apply(vm.rawdata, response.data.data);
-          weatherLoaded();
-          fetchMoreWeather();
-        } else {
-          throwError()
-        }
+    function fetchUsingPosition(position) {
+      console.log("Position accessed successfully", position);
+      $scope.master.location = $scope.master.textData.yourExactPosition;
+      let url = '/static/php/location-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
+      $http.get(url).success(function (data) {
+        Array.prototype.push.apply(vm.rawdata, data.data);
+        processData();
+      }).error(function (data, status) {
+        fetchUsingApproxPosition();
       });
     }
 
-    function fetchMoreWeather() {
-      var weatherRequest = {
-        method: 'GET',
-        url: '/static/php/more-weather.php?yrstring='+vm.yrString+'&d='+Math.floor(Date.now()/(3.6*10e5))+wsuf
-      };
-
-      $http(weatherRequest).then(function successCallback(response) {
-        console.log("Værdata-request fullført, skriptkjøringstid på serveren:", response.data.log, "Her er responsen:", response);
-        var data = response.data.data;
-        Array.prototype.push.apply(vm.rawdata, data);
-        weatherLoaded();
-      });
+    function fetchUsingApproxPosition() {
+      // Try to get approximate location using IP, and then fetch using place name
+      alert("Fetching using approximate is not implemented yet!");
     }
 
-    function weatherLoaded() {
+    function processData() {
       var data = vm.rawdata;
-      $scope.master.weatherDataLoaded = true;
       var ndata = {};
       var path = "/static/img/modern-icons/";
       for (var i = 0; i < data.length; i++) {
@@ -249,20 +97,20 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
             data[i].foreground = path+icon.substring(3,5)+"f.png";
           }
         }
-        var norge = data[1].hour - data[0].hour == 1 || (data[1].hour == 0 && data[0].hour == 23);
-        if (ndata.hasOwnProperty(vm.days[data[i].day]) && data[i].date !== ndata[vm.days[data[i].day]][0].date) {
-          if (ndata.hasOwnProperty(vm.days[data[i].day]+" ")) {
-            ndata[vm.days[data[i].day]+" "].push(data[i]);
+        let weekday_name = $scope.master.textData.weekdays[data[i].day];
+        if (ndata.hasOwnProperty(weekday_name) && data[i].date !== ndata[weekday_name][0].date) {
+          if (ndata.hasOwnProperty(weekday_name+" ")) {
+            ndata[weekday_name+" "].push(data[i]);
           } else {
-            ndata[vm.days[data[i].day]+" "] = [data[i]];
+            ndata[weekday_name+" "] = [data[i]];
           }
-        } else if (ndata.hasOwnProperty(vm.days[data[i].day])) {
-          ndata[vm.days[data[i].day]].push(data[i]);
+        } else if (ndata.hasOwnProperty(weekday_name)) {
+            ndata[weekday_name].push(data[i]);
         } else {
-          ndata[vm.days[data[i].day]] = [data[i]];
+            ndata[weekday_name] = [data[i]];
         }
       }
-      var nndata = [];
+      var processed_data = [];
       var i = 0;
       for (var day in ndata) {
         var summaryHours = [[], [], [], []];
@@ -289,7 +137,6 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
             ndata[day][j].group = 0;
           }
         }
-        //console.log("summaryHours for "+day+":", summaryHours);
         var summaries = [
           {},
           {},
@@ -299,7 +146,6 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
 
         for (var key = 0; key < summaryHours.length; key++) {
           if (summaryHours[key].length > 0) {
-            //console.log("Making summary no. "+key+" for day "+ndata[day][0].day+". summaryHours:",summaryHours[key]);
             showSummaries[key] = true;
             var totdegs = 0;
             var totprecip = 0;
@@ -329,7 +175,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
           }
         }
 
-        nndata[i] = {
+        processed_data[i] = {
           day: day,
           showFull: [false, false, false, false],
           index: i,
@@ -338,28 +184,28 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
         };
         for (var j = 0; j < summaries.length; j++) {
           if (showSummaries[j]) {
-            nndata[i].periods.push({
+            processed_data[i].periods.push({
               summary: summaries[j],
               showSummary: true,
               data: summaryHours[j]
             });
           }
         }
-        for (var j = 0; j < nndata[i].data.length; j++) {
-          if (!nndata[i].data[j].summarized) {
-            nndata[i].periods.push({
+        for (var j = 0; j < processed_data[i].data.length; j++) {
+          if (!processed_data[i].data[j].summarized) {
+            processed_data[i].periods.push({
               showSummary: false,
-              data: [nndata[i].data[j]]
+              data: [processed_data[i].data[j]]
             });
           }
         }
-        for (var j = 0; j < nndata[i].periods.length; j++) {
-          nndata[i].periods[j].group = nndata[i].periods[j].data[0].group;
+        for (var j = 0; j < processed_data[i].periods.length; j++) {
+          processed_data[i].periods[j].group = processed_data[i].periods[j].data[0].group;
         }
-        nndata[i].periods.sort(compare);
+        processed_data[i].periods.sort(compare);
         i++;
       }
-      $scope.master.data = nndata;
+      $scope.master.data = processed_data;
       console.log("Værdataen er behandlet, resultat:", $scope.master.data);
       if (initialJSON.noNeed || $scope.master.ifHome()) {
         var i = $location.path();
@@ -374,10 +220,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
         if (typeof (Storage) !== "undefined") {
           console.log("Browser supports localStorage, pushing",$scope.master.recents,"to localStorage.recents");
           console.log("delete $scope.master.recents.toJson()",delete $scope.master.recents.toJSON);
-          //console.log("Stringified version of master.recents:",JSON.stringify($scope.master.recents));
           localStorage.recents = JSON.stringify($scope.master.recents);
-          //console.log("This was saved to localStorage.recents:", localStorage.recents);
-          //console.log("Parsed:", JSON.parse(localStorage.recents));
         }
       }
       console.log("Recents:", $scope.master.recents);
@@ -388,40 +231,23 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
         return 25-(x-50)*0.5;
       }
     }
-  } else {
-    console.log("Data existed locally, setting master.data to master.recents[vm.recentIndex]...");
-    $scope.master.location = $scope.master.recents[$location.path()].info.location;
-    $scope.master.data = $scope.master.recents[$location.path()].data;
-    $scope.master.weatherDataLoaded = true;
   }
 
-  function throwError() {
-    console.log("throwError called");
-    $scope.master.weatherDataLoaded = true;
-    $scope.master.fail = true;
-    var suf = "";
-    if (/^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|(?=$))){4}$/.test(window.location.pathname.split('/')[1])) suf = '&ip='+window.location.pathname.split('/')[1];
-    if (/\/(([A-Z])\w+\/){2,3}([A-Z])\w+\/?/i.test(window.location.pathname)) suf = '&ip='+window.location.pathname;
-    if (navigator.onLine) {
-      $http.get('/static/php/report.php?yrstring='+vm.yrString+suf).success(function (data) {
-        console.log(data);
-      });
-    }
-  }
-
+  // Adjust background when window is resized
   angular.element($window).on('resize', function () {
     $scope.$apply(function(){
       $scope.view.height = window.innerHeight;
       $scope.view.width = window.innerWidth;
       if ($scope.view.width > 515) {
-        $scope.master.deviceTurned = true;
+        $scope.master.hideFlipDeviceTip = true;
         if (typeof(Storage) !== "undefined") {
-          localStorage.deviceTurned = true;
+          localStorage.hideFlipDeviceTip = true;
         }
       }
     });
   })
 
+  // This function is used to sort arrays
   function compare(a,b) {
     if (a.data[0].hour < b.data[0].hour)
     return -1;
@@ -430,6 +256,7 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
     return 0;
   }
 
+  // This function loads CSS from a URL and puts it in a <style> element in the HTML code
   function loadCSS (url) {
     if (typeof localStorage[url] !== 'undefined') {
       $scope.master.css += localStorage[url];
@@ -443,9 +270,10 @@ app.controller("lazyStuff", ['$http', '$scope', '$window', '$location', 'domain'
   loadCSS("/static/css/ubuntu.php");
   loadCSS("/static/css/glyphicons.min.css");
 
+  // Count and save how many times user has visited the website
   if (typeof(Storage) !== "undefined") {
-    var initial = localStorage.visits || 0;
-    localStorage.visits = initial*1 + 1;
+    let visits = localStorage.visits || 0;
+    localStorage.visits = Number(visits) + 1;
   }
 
 }]);

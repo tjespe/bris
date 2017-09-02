@@ -58,5 +58,10 @@
     "search": "Search",
     "typeLocation": "Type location name here",
     "noMatches": "No matches!",
-    "clickHere": "Click here!"
+    "clickHere": "Click here!",
+    "weekdays": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "from": "from",
+    "to": "to",
+    "in": ", ",
+    "yourExactPosition": "your exact position"
 }

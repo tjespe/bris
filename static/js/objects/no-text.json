@@ -77,5 +77,10 @@
     "search": "Søk",
     "typeLocation": "Skriv stedsnavn her",
     "noMatches": "Ingen treff!",
-    "clickHere": "Klikk her!"
+    "clickHere": "Klikk her!",
+    "weekdays": ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"],
+    "from": "fra",
+    "to": "til",
+    "in": " i ",
+    "yourExactPosition": "din posisjon"
 }

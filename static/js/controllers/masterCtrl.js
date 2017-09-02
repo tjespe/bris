@@ -1,25 +1,39 @@
 app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$location', '$timeout', '$injector', 'initialJSON', 'version', 'domain', function($http, $window, $rootScope, $scope, $location, $timeout, $injector, initialJSON, version, domain) {
-  var vm = this;
-  vm.disabled = false;
-  var block = false;
-  var bs = 'font-family:ubuntu;color:#3c763d;background-color: #dff0d8;padding:3px;font-size:15px;';
-  vm.norsk = (navigator.language.indexOf('nb')>-1 || navigator.language.indexOf('nn')>-1 || navigator.language.indexOf('no')>-1 || window.location.search.indexOf('lang=no')>-1)  && !(window.location.search.indexOf('lang=en')>-1);
-  vm.loc = "";
-  vm.desc = "";
+  let vm = this;
   vm.data = [];
   vm.fail = false;
-  vm.weatherDataLoaded = false;
-  vm.deviceTurned = true;
+  vm.weatherLoaded = ()=>vm.data.length > 0;
+  vm.hideFlipDeviceTip = true;
   vm.online = "onLine" in navigator && navigator.onLine;
-  console.log("homeCtrl-scope:", $scope);
-
   vm.lazyModulesLoaded = false;
+  vm.css = "";
   vm.location = "";
-  vm.yrCredit = true;
   vm.recents = {};
 
-  vm.css = "";
+  vm.textData = {};
+  vm.availableLangs = ['en','no'];
+  vm.lang = navigator.language;
 
+  // Check if language is requested in url
+  if((window.location.href).includes("lang=")){
+    vm.lang=(window.location.href).replace(/.+lang=/,"");
+  }
+
+  // Rewrite Norwegian Bokmål and Norwegian Nynorsk to Norwegian
+  vm.lang = (vm.lang == 'nb' || vm.lang == 'nn') ? 'no' : vm.lang;
+
+  // Check against the available languages
+  vm.lang = vm.availableLangs.indexOf(vm.lang)>-1 ? vm.lang : 'en';
+
+  // Fetch text data
+  $http.get('/static/js/objects/'+vm.lang+'-text.json').then((response)=>{
+    vm.textData = response.data;
+  }).catch((data, status)=>{
+    console.log(data, status);
+    confirm('Unable to load textdata, do you want to reload the page?') ? location.reload(true) : null;
+  });
+
+  // Load recently fetched weather data from localStorage
   if (typeof(Storage) !== "undefined" && localStorage.hasOwnProperty('recents')) {
     vm.recents = JSON.parse(localStorage.recents);
   }
@@ -36,9 +50,6 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.goTo = function (x) {
     $location.path(x);
   }
-  vm.yrStringProvided = function () {
-    return /\/([\w%-]+\/){2,3}[\w%-]+\/?/i.test(window.location.pathname);
-  }
   vm.shorten = function (input) {
     if (typeof input == 'string' && input.match(/\s.*/) !== null) {
       return input.replace(/\s.*/, '').replace(/,.*/, '');
@@ -49,10 +60,11 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     vm.data[day].showFull[group] = !vm.data[day].showFull[group];
   }
 
-  if (typeof(Storage) !== "undefined" && typeof localStorage.lazyModules !== "undefined" && localStorage.lmv == version) {
+  // Load the rest of the javascript code
+  if (typeof(Storage) !== "undefined" && typeof localStorage.lazyModules !== "undefined" && localStorage.lmv == version) { // Load the code from localStorage
     eval(localStorage.lazyModules);
     vm.lazyModulesLoaded = true;
-  } else {
+  } else { // Load the code from the server
     $http.get('/static/js/lazyModules.php?d='+Date.now()).success(function (data) {
       eval(data);
       vm.lazyModulesLoaded = true;
@@ -63,11 +75,13 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     });
   }
 
+  // Fetch Google Analytics code if the client is not a robot
   if (navigator.userAgent.indexOf('Speed Insights')==-1 && navigator.onLine) {
     $http.get('/static/js/scripts/analytics.js').success((data)=>eval(data));
   }
 
-  var divs = document.getElementsByClassName('content');
+  // Show the hidden divs
+  let divs = document.getElementsByClassName('content');
   for (i=0;i<divs.length;i++) {
     divs[i].setAttribute('style', 'display:block');
   }
