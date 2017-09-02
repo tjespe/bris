@@ -82,5 +82,6 @@
     "from": "fra",
     "to": "til",
     "in": " i ",
-    "yourExactPosition": "din posisjon"
+    "yourExactPosition": "din posisjon",
+    "kl": "Kl "
 }
