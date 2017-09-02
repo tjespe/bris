@@ -29,7 +29,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.lang = vm.availableLangs.indexOf(vm.lang)>-1 ? vm.lang : 'en';
 
   // Fetch text data
-  $http.get('/static/js/objects/'+vm.lang+'-text.json').then((response)=>{
+  $http.get('/src/js/objects/'+vm.lang+'-text.json').then((response)=>{
     vm.textData = response.data;
   }).catch((data, status)=>{
     console.log(data, status);
@@ -71,7 +71,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     eval(localStorage.lazyModules);
     vm.lazyModulesLoaded = true;
   } else { // Load the code from the server
-    $http.get('/static/js/lazyModules.php?d='+Date.now()).success(function (data) {
+    $http.get('/src/js/lazyModules.php?d='+Date.now()).success(function (data) {
       eval(data);
       vm.lazyModulesLoaded = true;
       if (typeof(Storage) !== "undefined") {
@@ -83,7 +83,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
 
   // Fetch Google Analytics code if the client is not a robot
   if (navigator.userAgent.indexOf('Speed Insights')==-1 && navigator.onLine) {
-    $http.get('/static/js/scripts/analytics.js').success((data)=>eval(data));
+    $http.get('/src/js/scripts/analytics.js').success((data)=>eval(data));
   }
 
   // Show the hidden divs
@@ -103,7 +103,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
       });
     }
   }
-  loadCSS("/static/css/ubuntu.php");
-  loadCSS("/static/css/glyphicons.min.css");
+  loadCSS("/src/css/ubuntu.php");
+  loadCSS("/src/css/glyphicons.min.css");
 
 }]);

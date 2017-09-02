@@ -5,10 +5,10 @@ app.config(["$routeProvider", "$sceProvider", "$locationProvider", '$controllerP
 
   $routeProvider
   .when('/search', {
-    templateUrl: '/static/views/search.html'
+    templateUrl: '/src/views/search.html'
   })
   .otherwise({
-    templateUrl: '/static/views/home.html'
+    templateUrl: '/src/views/home.html'
   });
   $sceProvider.enabled(true);
 
@@ -56,7 +56,7 @@ app.service('initialJSON', ['$http', 'domain', function ($http, domain) {
   var vm = this;
   var suf = "";
   vm.noNeed = false;
-  let url = '/static/js/initialJSON.php'+suf;
+  let url = '/src/js/initialJSON.php'+suf;
   if ("onLine" in navigator && !navigator.onLine) "data:application/json;base64,W10=";
   vm.json = $http.get(url);
   if (/^(([1-9]?\d|1\d\d|2[0-4]\d|25[0-5])(\.(?!$)|(?=$))){4}$/.test(window.location.pathname.split('/')[1])) suf = '?ip='+window.location.pathname.split('/')[1];

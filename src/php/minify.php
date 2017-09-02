@@ -13,7 +13,7 @@ require_once $path . '/minify/src/Exception.php';
 require_once $path . '/path-converter/src/Converter.php';
 use MatthiasMullie\Minify;
 $t7 = round(microtime(true) * 1000000) - $start;
-$path .= "/public_html/static/js";
+$path .= "/public_html/src/js";
 $version = (int) file_get_contents($path.'/version') + 1;
 echo "<h1>Version $version</h1>";
 file_put_contents($path.'/version', $version);
@@ -41,7 +41,7 @@ $ljs = $lmin->minify();
 $cssMin = new Minify\CSS('../css/main.css');
 $css = $cssMin->minify();
 
-/*$ngMinifier = new Minify\JS($path.'/public_html/static/js/angular.js');
+/*$ngMinifier = new Minify\JS($path.'/public_html/src/js/angular.js');
 $ngMin = $ngMinifier->minify();*/
 
 $file = $path.'/initial.min.js';
@@ -59,8 +59,8 @@ if (file_put_contents($cssLoc, $css)) {
   echo "<h2>The code below was successfully saved to $cssLoc</h2>$css<br><br>";
 }
 
-/*if (file_put_contents($path.'/public_html/static/js/angular.min.js', $ngMin)) {
-  echo "<h2>The code below was successfully saved to ".$path.'/public_html/static/js/angular.min.js'."</h2>$ngMin<br><br>";
+/*if (file_put_contents($path.'/public_html/src/js/angular.min.js', $ngMin)) {
+  echo "<h2>The code below was successfully saved to ".$path.'/public_html/src/js/angular.min.js'."</h2>$ngMin<br><br>";
 }*/
 
  ?>

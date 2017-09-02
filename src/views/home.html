@@ -47,5 +47,5 @@
   <span ng-if="master.weatherLoaded()" ng-bind="::master.textData.metCredit"></span>
 </section>
 
-<img src="/static/img/loading.svg" class="loader" ng-if="!master.weatherLoaded()" />
+<img src="/src/img/loading.svg" class="loader" ng-if="!master.weatherLoaded()" />
 <ul class="list-group" ng-if="master.fail" style="margin-bottom: 0px;margin-top: 20px;"><li class="list-group-item list-group-item-danger" ng-bind="::master.textData.fetchFail"></li></ul>

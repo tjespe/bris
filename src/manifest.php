@@ -19,18 +19,18 @@ CACHE MANIFEST
 
 CACHE:
 /
-/static/manifest.php
+/src/manifest.php
 index.php
 https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js
-/static/js/initial.min.js
-/static/js/initialJSON.php
-/static/img/background.jpg
-/static/views/search.html
-/static/views/home.html
-/static/html/cookie-box.html
-/static/img/loading.svg
+/src/js/initial.min.js
+/src/js/initialJSON.php
+/src/img/background.jpg
+/src/views/search.html
+/src/views/home.html
+/src/html/cookie-box.html
+/src/img/loading.svg
 <?php foreach ($wicons as $wicon ) { ?>
-/static/img/modern-icons/<?= $wicon ?>
+/src/img/modern-icons/<?= $wicon ?>
 
 <?php } ?>
 https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css
