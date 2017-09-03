@@ -135,7 +135,10 @@ moon[offset=true] {
 .expand-btn>span {display: block}
 
 /* Search form CSS */
-.location-row>div {padding: 10px}
+.location-row>div {
+  padding: 10px;
+  min-width:75px;
+}
 .location-row>div>img {height: 30px}
 .place-description {
   text-align: left;

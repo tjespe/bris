@@ -31,7 +31,7 @@ moon[offset=true]{margin-left:5px;margin-top:5px}
 .expand-btn{color:#337ab7;cursor:pointer}
 .expand-btn:hover{color:#286090}
 .expand-btn>span{display:block}
-.location-row>div{padding:10px}
+.location-row>div{padding:10px;min-width:75px}
 .location-row>div>img{height:30px}
 .place-description{text-align:left;flex:5 !important}
 .place-description>div{color:#777;font-size:small}
