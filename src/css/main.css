@@ -21,7 +21,10 @@ a {
   color: #337ab7;
 	text-decoration: none
 }
-h3 {margin-top:0}
+h3 {
+  margin-top:0;
+  font-weight: 100;
+}
 
 /* Header CSS */
 header {

@@ -1,7 +1,7 @@
 body{margin:0px;-webkit-touch-callout:none;-webkit-user-select:none;-khtml-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;font-family:ubuntu, Sans-Serif}
 .content{font-size:18px;width:87%;background:#FEFEFE;border:1px solid #CCC;margin:35px auto;text-align:center;padding-left:0 11px 30px;max-width:900px;min-width:285px;overflow:hidden;border-radius:15px}
 a{color:#337ab7;text-decoration:none}
-h3{margin-top:0}
+h3{margin-top:0;font-weight:100}
 header{width:100%;background:#FEFEFE;border:1px solid #CCC;letter-spacing:1px;height:66px;text-align:center;z-index:1000;color:#337ab7;font-size:14px}
 @media screen and (min-height: 570px){header { position:fixed}
 spacer{display:block;height:66px}
