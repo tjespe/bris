@@ -21,6 +21,7 @@ app.controller('searchController', ['$http', '$scope', '$q', '$sce', function($h
         if (country == "United Arab Emirates") country = "are";
         if (country == "Japan") country = "jpn";
         if (country == "Denmark") country = "dnk";
+        if (country == "Philippines") country = "phl";
         vm.matches[i].country = country.substr(0,3).toLowerCase();
       }
     });
