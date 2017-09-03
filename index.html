@@ -30,8 +30,8 @@
   <div class="content">
     <div class="nav-menu">
       <ul>
-        <li ng-class="{'active':master.ifHome()}"><a href="/"><span class="glyphicon glyphicon-screenshot"></span> <span class="nav-menu-text" ng-bind="::master.textData.yourLocation"></span></a></li>
-        <li ng-class="{'active':master.ifSearch()}" ng-if="master.online"><a href="/search"><span class="glyphicon glyphicon-search"></span> <span class="nav-menu-text" ng-bind="::master.textData.search"></span></a></li>
+        <li ng-class="{'active':master.ifHome()}"><a href ng-click="master.goTo('/')"><span class="glyphicon glyphicon-screenshot"></span> <span class="nav-menu-text" ng-bind="::master.textData.yourLocation"></span></a></li>
+        <li ng-class="{'active':master.ifSearch()}" ng-if="master.online"><a href ng-click="master.goTo('search')"><span class="glyphicon glyphicon-search"></span> <span class="nav-menu-text" ng-bind="::master.textData.search"></span></a></li>
         <li ng-if="recent.info.url !== '/'" ng-repeat="recent in master.recents" ng-class="{active:master.ifAt(recent.info.url)}" ng-click="master.goTo(recent.info.url)"><a href><span ng-bind="master.shorten(recent.info.location)" ng-bind="::master.textData.clickHere"></span></a></li>
       </ul>
     </div>
