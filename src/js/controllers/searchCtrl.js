@@ -1,4 +1,4 @@
-app.controller('searchController', ['$http', '$scope', '$q', 'domain', '$sce', function($http, $scope, $q, domain, $sce) {
+app.controller('searchController', ['$http', '$scope', '$q', '$sce', function($http, $scope, $q, $sce) {
   var vm = this;
   vm.query = "";
   vm.matches = [];

@@ -73,7 +73,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
   function processData() {
     /* semi_processed_data is an array where the index is the numbered day of the month, and the element contains all data for this date */
     let semi_processed_data = [];
-    let imgs_path = "/src/img/modern-icons/";
+    let imgs_path = "src/img/modern-icons/";
     for (let i = 0; i < vm.rawdata.length; i++) {
       let icon = vm.rawdata[i].icon;
       vm.rawdata[i].offset = false;

@@ -1,14 +1,13 @@
 CACHE MANIFEST
 
-# Offline Cache version 22
+# Offline Cache version 25
 
 CACHE:
 /
-/src/manifest.php
+manifest.appcache
 index.html
 https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js
 /src/js/initial.min.js
-/src/js/initialJSON.php
 /src/img/background.jpg
 /src/views/search.html
 /src/views/home.html
