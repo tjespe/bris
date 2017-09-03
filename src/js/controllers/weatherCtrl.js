@@ -154,7 +154,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
             let first_child = obj.data[period].data[0];
             let last_child = obj.data[period].data.slice(-1)[0];
             obj.data[period].hour = first_child.hour;
-            obj.data[period].hourTo = last_child.hour;
+            obj.data[period].hourTo = last_child.hourTo;
             obj.data[period].background = first_child.background;
             obj.data[period].foreground = first_child.foreground;
             obj.data[period].icon = first_child.icon;
