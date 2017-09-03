@@ -9,6 +9,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.css = "";
   vm.location = "";
   vm.recents = {};
+  vm.domain = location.host;
 
   vm.width = $window.innerWidth;
   vm.height = $window.innerHeight;
