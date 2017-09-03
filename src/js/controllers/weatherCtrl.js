@@ -39,7 +39,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
 
     function fetchUsingPosition(position) {
       console.log("Position accessed successfully", position);
-      $scope.master.location = $scope.master.textData.yourExactPosition;
+      $scope.master.location = typeof position.timestamp !== "undefined" ? $scope.master.textData.yourExactPosition : $scope.master.textData.yourApproxPosition;
       let url = 'https://real-timer-server.tk:2087/get-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
       $http.get(url).success(function (data) {
         Array.prototype.push.apply(vm.rawdata, data.data);

@@ -82,6 +82,7 @@
     "from": "fra",
     "to": "til",
     "in": " i ",
-    "yourExactPosition": "din posisjon",
+    "yourExactPosition": "din nøyaktige posisjon",
+    "yourApproxPosition": "din omtrentlige posisjon",
     "kl": "Kl "
 }
