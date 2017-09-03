@@ -50,8 +50,15 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
     }
 
     function fetchUsingApproxPosition() {
-      // Try to get approximate location using IP, and then fetch using place name
-      alert("Fetching using approximate is not implemented yet!");
+      // Try to get approximate location using IP
+      $http.get("https://real-timer-server.tk:2087/ip-data.php").success((data)=>{
+        fetchUsingPosition({
+          coords: {
+            latitude: data.lat,
+            longitude: data.lon
+          }
+        });
+      });
     }
   }
 
