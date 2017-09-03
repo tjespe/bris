@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-# Offline Cache version 13
+# Offline Cache version 20
 
 CACHE:
 /
@@ -70,5 +70,3 @@ NETWORK:
 *
 http://*
 https://*
-
-FALLBACK:
