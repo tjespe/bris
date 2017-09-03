@@ -8,6 +8,8 @@ manifest.appcache
 index.html
 https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js
 /src/js/initial.min.js
+/src/js/objects/no-text.json
+/src/js/objects/en-text.json
 /src/img/background.jpg
 /src/views/search.html
 /src/views/home.html
