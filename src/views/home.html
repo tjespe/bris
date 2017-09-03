@@ -1,5 +1,5 @@
 <section ng-hide="master.fail" ng-if="master.lazyModulesLoaded" ng-controller="weatherCtrl as w">
-  <h3 ng-if="master.weatherLoaded()" ng-bind="::master.textData.showingWFor + ' ' + master.location"></h3>
+  <h3 ng-if="master.weatherLoaded()" ng-bind="master.textData.showingWFor + ' ' + master.location"></h3>
   <ul class="list-group" ng-if="!master.hideFlipDeviceTip">
     <li class="list-group-item list-group-item-info" ng-if="master.width<=515" ng-show="master.weatherLoaded()" ng-bind="::master.textData.rotateTip"></li>
   </ul>
@@ -16,7 +16,7 @@
       <div ng-repeat="(j, period) in day.data">
         <div class="summarized row" ng-class="{'show-row':period.currently_summarized}">
           <div ng-class="{'expand-btn': period.data.length > 1}" ng-click="master.toggle(i, j)">
-            <span style="margin-bottom:20px;" ng-bind="::master.textData.kl+period.hour+'-'+period.hourTo"></span>
+            <span ng-bind="::master.textData.kl+period.hour+'-'+period.hourTo"></span>
             <span ng-if="period.data.length>1" class="glyphicon glyphicon-menu-down"></span>
           </div>
           <div>
