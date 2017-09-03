@@ -1,11 +1,17 @@
 var app = angular.module("app", ['ngRoute']);
 app.config(["$routeProvider", "$sceProvider", "$locationProvider", '$controllerProvider', '$provide', '$compileProvider', '$filterProvider', '$sceDelegateProvider', function($routeProvider, $sceProvider, $locationProvider, $controllerProvider, $provide, $compileProvider, $filterProvider, $sceDelegateProvider) {
   $routeProvider
+  .when('/', {
+    templateUrl: 'src/views/home.html'
+  })
   .when('/search', {
     templateUrl: 'src/views/search.html'
   })
-  .otherwise({
+  .when('/:place', {
     templateUrl: 'src/views/home.html'
+  })
+  .otherwise({
+    redirectTo: '/'
   });
   $sceProvider.enabled(true);
 

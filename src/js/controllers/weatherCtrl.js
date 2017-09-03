@@ -1,4 +1,4 @@
-app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', function ($http, $scope, $window, $location) {
+app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$routeParams', function ($http, $scope, $window, $location, $routeParams) {
   let vm = this;
   $scope.master.data = [];
   vm.timezone = -(new Date().getTimezoneOffset()/60);
@@ -26,7 +26,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
       fetchUsingPlaceName()
     } else {
       if (navigator.geolocation) {
-        console.log("Trying to fetch position");
+        $scope.master.location = $scope.master.textData.yourExactPosition;
         navigator.geolocation.getCurrentPosition(fetchUsingPosition, fetchUsingApproxPosition);
       } else {
         fetchUsingApproxPosition();
@@ -34,12 +34,19 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
     }
 
     function fetchUsingPlaceName() {
-      alert("Fetching using place name is not implemented yet!");
+      // Get coordinates for place, and fetch weather data using position
+      $scope.master.location = $routeParams.place;
+      $http.get("https://real-timer-server.tk:2087/get-coordinates.php?input="+encodeURIComponent($routeParams.place)).success((data)=>{
+        fetchUsingPosition({
+          coords: {
+            latitude: data.results[0].geometry.location.lat,
+            longitude: data.results[0].geometry.location.lng
+          }
+        })
+      });
     }
 
     function fetchUsingPosition(position) {
-      console.log("Position accessed successfully", position);
-      $scope.master.location = typeof position.timestamp !== "undefined" ? $scope.master.textData.yourExactPosition : $scope.master.textData.yourApproxPosition;
       let url = 'https://real-timer-server.tk:2087/get-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
       $http.get(url).success(function (data) {
         Array.prototype.push.apply(vm.rawdata, data.data);
@@ -51,6 +58,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', functi
 
     function fetchUsingApproxPosition() {
       // Try to get approximate location using IP
+      $scope.master.location = $scope.master.textData.yourApproxPosition;
       $http.get("https://real-timer-server.tk:2087/ip-data.php").success((data)=>{
         fetchUsingPosition({
           coords: {
