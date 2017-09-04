@@ -11,7 +11,6 @@ https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js.map
 /manifest.appcache
 /min/main.min.css
 /min/initial.min.js
-/src/js/initial.min.js
 /src/js/objects/no-text.json
 /src/js/objects/en-text.json
 /src/img/background.jpg
