@@ -1,4 +1,4 @@
-app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$routeParams', function ($http, $scope, $window, $location, $routeParams) {
+app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$routeParams', '$httpx', function ($http, $scope, $window, $location, $routeParams, $httpx) {
   let vm = this;
   $scope.master.data = [];
   vm.timezone = -(new Date().getTimezoneOffset()/60);
@@ -36,7 +36,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     function fetchUsingPlaceName() {
       // Get coordinates for place, and fetch weather data using position
       $scope.master.location = $routeParams.place;
-      $http.get("https://real-timer-server.tk:2087/get-coordinates.php?input="+encodeURIComponent($routeParams.place)).success((data)=>{
+      $httpx.get("https://real-timer-server.tk:2087/get-coordinates.php?input="+encodeURIComponent($routeParams.place), {lifetime: Infinity}).then((data)=>{
         fetchUsingPosition({
           coords: {
             latitude: data.results[0].geometry.location.lat,

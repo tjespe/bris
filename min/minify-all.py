@@ -21,5 +21,5 @@ version += 1
 open("version", "w").write(str(version))
 os.system("sed -i '' -E 's/Offline Cache version .*/Offline Cache version "+str(version)+"/' ../manifest.appcache")
 # Minify files
-os.system("echo \"app.value('version', "+str(version)+")\" | ./minify-js initial.min.js ../src/js/app.js ../src/js/controllers/masterCtrl.js  ../src/js/directives/para-back.js /dev/stdin");
+os.system("echo \"app.value('version', "+str(version)+")\" | ./minify-js initial.min.js ../src/js/app.js ../src/js/controllers/masterCtrl.js ../src/js/services/httpx.js ../src/js/directives/para-back.js /dev/stdin");
 os.system("./minify-js lazyModules.js ../src/js/controllers/weatherCtrl.js ../src/js/controllers/searchCtrl.js  ../src/js/controllers/cookieCtrl.js");

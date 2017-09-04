@@ -1,4 +1,4 @@
-app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$location', '$timeout', '$injector', 'version', function($http, $window, $rootScope, $scope, $location, $timeout, $injector, version) {
+app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$location', '$timeout', '$injector', 'version', '$httpx', function($http, $window, $rootScope, $scope, $location, $timeout, $injector, version, $httpx) {
   let vm = this;
   vm.data = [];
   vm.fail = false;
@@ -30,10 +30,9 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.lang = vm.availableLangs.indexOf(vm.lang)>-1 ? vm.lang : 'en';
 
   // Fetch text data
-  $http.get('src/js/objects/'+vm.lang+'-text.json').then((response)=>{
-    vm.textData = response.data;
-  }).catch((data, status)=>{
-    console.log(data, status);
+  $httpx.get('src/js/objects/'+vm.lang+'-text.json', {lifetime:1000*60*60*24*10}).then(function successCallback(data) {
+    vm.textData = data;
+  }).catch(function errorCallback(data) {
     confirm('Unable to load textdata, do you want to reload the page?') ? location.reload(true) : null;
   });
 
@@ -84,7 +83,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
 
   // Fetch Google Analytics code if the client is not a robot
   if (navigator.userAgent.indexOf('Speed Insights')==-1 && navigator.onLine) {
-    $http.get('src/js/scripts/analytics.js').success((data)=>eval(data));
+    $httpx.get('src/js/scripts/analytics.js', {lifetime: Infinity}).then(function successCallback(data) {eval(data)});
   }
 
   // Show the hidden divs
@@ -98,7 +97,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     if (typeof localStorage[url] !== 'undefined') {
       vm.css += localStorage[url];
     } else {
-      $http.get(url).success((data)=>{
+      $httpx.get(url, {lifetime:1000*60*60*24*10}).then((data)=>{
         vm.css += data;
         localStorage[url] = data;
       });

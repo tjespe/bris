@@ -1,11 +1,11 @@
-app.controller('searchController', ['$http', '$scope', '$q', '$sce', function($http, $scope, $q, $sce) {
+app.controller('searchController', ['$http', '$scope', '$q', '$sce', '$httpx', function($http, $scope, $q, $sce, $httpx) {
   var vm = this;
   vm.query = "";
   vm.matches = [];
   vm.error = false;
 
   vm.search = function () {
-    $http.get("https://real-timer-server.tk:2087/place-search.php?input="+vm.query).success((data)=>{
+    $httpx.get("https://real-timer-server.tk:2087/place-search.php?input="+vm.query, {lifetime: Infinity}).then((data)=>{
       console.log(data);
       vm.matches = data.predictions;
       for (let i = 0;i < vm.matches.length;i++) {
