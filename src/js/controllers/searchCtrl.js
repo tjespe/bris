@@ -5,7 +5,8 @@ app.controller('searchController', ['$http', '$scope', '$q', '$sce', '$httpx', f
   vm.error = false;
 
   vm.search = function () {
-    $httpx.get("https://real-timer-server.tk:2087/place-search.php?input="+vm.query, {lifetime: Infinity}).then((data)=>{
+    let get_params = "?input="+encodeURIComponent(vm.query);
+    $httpx.get("https://real-timer-server.tk:2087/place-search.php"+get_params, {lifetime: Infinity, alt_urls: "https://script.google.com/macros/s/AKfycby5ASPEN1ESxoUZru80yqRXBNVm4C5MkDcHL5asJs3KADFW1huc/exec"+get_params}).then((data)=>{
       console.log(data);
       vm.matches = data.predictions;
       for (let i = 0;i < vm.matches.length;i++) {
