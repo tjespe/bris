@@ -36,7 +36,8 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     function fetchUsingPlaceName() {
       // Get coordinates for place, and fetch weather data using position
       $scope.master.location = $routeParams.place;
-      $httpx.get("https://real-timer-server.tk:2087/get-coordinates.php?input="+encodeURIComponent($routeParams.place), {lifetime: Infinity}).then((data)=>{
+      let get_params = "?input="+encodeURIComponent($routeParams.place);
+      $httpx.get("https://real-timer-server.tk:2087/get-coordinates.php"+get_params, {lifetime: Infinity, alt_urls: ["https://script.google.com/macros/s/AKfycbydJkKZ1KJSqR_LxtMOoa5Zlmq3F4NJ80e9x0kRMXUWmgmpKqs8/exec"+get_params]}).then((data)=>{
         fetchUsingPosition({
           coords: {
             latitude: data.results[0].geometry.location.lat,
