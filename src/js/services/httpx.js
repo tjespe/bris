@@ -11,7 +11,8 @@ app.service('$httpx', ['$http', '$q', function($http, $q) {
   vm.get = (url, options)=>{
     if (typeof options === "undefined") options = {};
     let deferred = $q.defer();
-    let urls = typeof options.alt_urls === "undefined" ? [url] : options.alt_urls.push(url) && options.alt_urls;
+    if (typeof options.alt_urls === "string") options.alt_urls = [options.alt_urls];
+    let urls = typeof options.alt_urls === "undefined" ? [url] : (options.alt_urls.push(url) && options.alt_urls);
     let resolved = false;
     let errors = 0;
     if (!("lifetime" in options)) options.lifetime = 0;
