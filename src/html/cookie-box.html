@@ -1,4 +1,4 @@
-<div class="content cookie-box">
+<div class="content cookie-box" ng-class="{opaque: !c.transparent}" ng-if="!c.closed">
   <span ng-bind="::master.textData.cookiePolicy"></span>
   <a class="glyphicon glyphicon-remove" href ng-click="c.close()"></a>
 </div>
