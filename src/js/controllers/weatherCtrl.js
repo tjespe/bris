@@ -48,11 +48,11 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     }
 
     function fetchUsingPosition(position) {
-      let url = 'https://real-timer-server.tk:2087/get-weather.php?lat='+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
-      $http.get(url).success(function (data) {
+      let get_params = "?lat="+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
+      $httpx.get('https://real-timer-server.tk:2087/get-weather.php'+get_params, {lifetime:0, alt_urls: ["https://script.google.com/macros/s/AKfycby5B-zyPL5Zse2T_CZhZ92NqTM5tp2fu6J2t-KZMOYPxYOeVXfb/exec"+get_params]}).then((data)=>{
         Array.prototype.push.apply(vm.rawdata, data.data);
         processData();
-      }).error(function (data, status) {
+      }).catch(function (data, status) {
         fetchUsingApproxPosition();
       });
     }
