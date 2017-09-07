@@ -13,7 +13,7 @@ spacer{display:block;height:66px}
 83%{transform:rotate(495deg)}
 100%{transform:rotate(405deg)}
 } .loader{animation-name:spin;animation-duration:5s;animation-iteration-count:infinite}
-.cookie-box{position:fixed;bottom:0;min-width:100%;margin-bottom:0;padding:12px 0;box-shadow:0px 12px 200px #888, 0px -10px 75px #888;opacity:0;transition:opacity 0.3s ease-in-out;z-index:1000}
+.cookie-box{position:fixed;bottom:0;min-width:100%;margin-bottom:0;padding:12px 0;box-shadow:0px 12px 200px #888, 0px -10px 75px #888;opacity:0;transition:opacity 0.3s ease-in-out;z-index:1000;border-radius:15px 15px 0 0}
 .background-offset{background-position:-5px -5px}
 .weather-icon{height:45px !important;background-size:45px;position:relative}
 moon{width:25px;height:25px !important;border-radius:50%;position:absolute;display:inline-block;margin:10px auto 7.5px 10px}

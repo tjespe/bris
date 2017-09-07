@@ -66,6 +66,7 @@ header {
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
   z-index:1000;
+  border-radius: 15px 15px 0 0;
 }
 
 /* Weather icons CSS */
