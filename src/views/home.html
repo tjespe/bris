@@ -1,8 +1,6 @@
 <section ng-hide="master.fail" ng-if="master.lazyModulesLoaded" ng-controller="weatherCtrl as w">
   <h3 ng-if="master.weatherLoaded()" ng-bind="master.textData.showingWFor + ' ' + master.location"></h3>
-  <ul class="list-group" ng-if="!master.hideFlipDeviceTip">
-    <li class="list-group-item list-group-item-info" ng-if="master.width<=515" ng-show="master.weatherLoaded()" ng-bind="::master.textData.rotateTip"></li>
-  </ul>
+  <span ng-if="!master.hideFlipDeviceTip && master.width<=515" ng-show="master.weatherLoaded()" ng-bind="::master.textData.rotateTip"></span>
   <div ng-if="master.weatherLoaded()" ng-cloak>
     <div class="row semi-row" id="table-header">
       <div ng-bind="::master.textData.time"></div>
