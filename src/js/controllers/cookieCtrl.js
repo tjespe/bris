@@ -1,30 +1,21 @@
 app.controller('cookieCtrl', ['$timeout', '$scope', function ($timeout, $scope) {
-  var vm = this;
-  vm.elem = document.getElementsByClassName('cookie-box')[0];
-  vm.template = "";
+  let vm = this;
+  vm.closed = false;
+  vm.transparent = true;
 
   vm.close = function () {
-    vm.elem = document.getElementsByClassName('cookie-box')[0];
-    try {
-      vm.elem.setAttribute('style', 'opacity:0;');
-    } catch (e) {console.warn(e);}
-    if (typeof(Storage) !== "undefined") {
-      localStorage.cookieAccept = "true";
-    } else {
-      document.cookie = "cookiescriptaccept=visit"
-    }
-    $timeout(()=>{
-      if (vm.elem) vm.elem.parentNode.removeChild(vm.elem);
-    }, 500);
+    if (typeof(Storage) !== "undefined") localStorage.cookieAccept = "true";
+    else document.cookie = "cookieaccept=visit";
+    vm.transparent = true;
+    $timeout(()=>vm.closed = true, 500);
   }
 
-  if ((typeof(Storage) !== "undefined" && localStorage.cookieAccept != "true") && getCookieValue("cookiescriptaccept") != "visit") {
+  if ((typeof(Storage) !== "undefined" && localStorage.cookieAccept != "true") && getCookieValue("cookieaccept") != "visit") {
     $timeout(function () {
-      vm.elem = document.getElementsByClassName('cookie-box')[0];
-      vm.elem.setAttribute('style', 'opacity:1;');
+      vm.transparent = false;
       $timeout(vm.close, 5000);
     }, 2500);
-  } else if (vm.elem) vm.elem.parentNode.removeChild(vm.elem);
+  } else vm.close();
 
   function getCookieValue(a, b) {
     b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
