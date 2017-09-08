@@ -140,6 +140,7 @@ moon[offset=true] {
 }
 .expand-btn:hover {color:#286090}
 .expand-btn>span {display: block}
+.expand-btn>.glyphicon-menu-down {margin-top: 20px}
 
 /* Search form CSS */
 .location-row>div {
