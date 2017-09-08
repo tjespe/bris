@@ -9,7 +9,7 @@ os.chdir(dname)
 ##############
 # Minify CSS #
 ##############
-os.system("./minify-css.py > main.min.css")
+os.system("./minify-css > main.min.css")
 
 
 #############
