@@ -12,17 +12,21 @@ app.controller('searchController', ['$http', '$scope', '$q', '$sce', '$httpx', f
       for (let i = 0;i < vm.matches.length;i++) {
         // This will produce a correct URL for most countries, if any exceptions are discovered, find the correct URL here: https://raw.githubusercontent.com/divyabiyani/Countries-Flag-API/master/Countries.json
         let country = vm.matches[i].terms[vm.matches[i].terms.length - 1].value;
-        if (country == "United States") country = "usa";
-        if (country == "Iran") country = "irn";
-        if (country == "United Kingdom") country = "gbr";
-        if (country == "Germany") country = "deu";
-        if (country == "Spain") country = "esp";
-        if (country == "Malaysia") country = "mys";
-        if (country == "Malta") country = "mlt";
-        if (country == "United Arab Emirates") country = "are";
-        if (country == "Japan") country = "jpn";
-        if (country == "Denmark") country = "dnk";
-        if (country == "Philippines") country = "phl";
+        let exceptions = {
+          "United States": "usa",
+          "Iran": "irn",
+          "United Kingdom": "gbr",
+          "Germany": "deu",
+          "Spain": "esp",
+          "Malaysia": "mys",
+          "Malta": "mlt",
+          "United Arab Emirates": "are",
+          "Japan": "jpn",
+          "Denmark": "dnk",
+          "Philippines": "phl",
+          "Bangladesh": "bgd"
+        }
+        if (country in exceptions) country = exceptions(country);
         vm.matches[i].country = country.substr(0,3).toLowerCase();
       }
     });
