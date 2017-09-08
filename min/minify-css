@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+# ************************************************************************************
+# * This script is written by @borgar (https://stackoverflow.com/users/27388/borgar) *
+# * in this stackoverflow answer: https://stackoverflow.com/a/223689                 *
+# ************************************************************************************
 import re
 
 css = open("../src/css/main.css", 'r' ).read()
