@@ -6,4 +6,4 @@ No matter where you are in the world you can go to `bris.cf` and you will be sho
 Bris is designed to be easy to use, minimalistic, fast, and good looking.
 
 #### Here is a screenshot of how the website currently looks:
-[Coming very soon]
+![alt text](src/img/screenshot.png?raw=true "Screenshot")
