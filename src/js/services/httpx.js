@@ -19,6 +19,15 @@ app.service('$httpx', ['$http', '$q', function($http, $q) {
     // Create an array of urls
     if (typeof options.alt_urls === "string") options.alt_urls = [options.alt_urls];
     let urls = typeof options.alt_urls === "undefined" ? [url] : (options.alt_urls.push(url) && options.alt_urls);
+    // Honor timeout if specified in options object
+    let alt_timeout = options.timeout;
+    if (typeof alt_timeout === "number") {
+      $timeout(()=>deferred.reject("TIMED OUT"), alt_timeout);
+    } else if (typeof alt_timeout !== "undefined") {
+      alt_timeout.catch(()=>deferred.reject("CANCELLED"));
+    }
+    // Use main promise as options.timeout so that no unnecessary data is loaded
+    options.timeout = deferred.promise;
     // Loop through urls and make requests
     for (let i = 0;i < urls.length;i++) {
       // If valid data is stored in localStorage, resolve the request using that data
