@@ -35,6 +35,7 @@ app.service('$httpx', ['$http', '$q', function($http, $q) {
     } else {
       // Loop through urls and make requests
       for (let i = 0;i < urls.length;i++) {
+        if (urls[i].includes("bris-cdn.cf")) options.withCredentials = true;
         $http.get(urls[i], options).then(function successCallback(response) {
           // Resolve promise with data from request
           if (!resolved) deferred.resolve(response.data);
