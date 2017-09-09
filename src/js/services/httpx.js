@@ -28,38 +28,35 @@ app.service('$httpx', ['$http', '$q', function($http, $q) {
     }
     // Use main promise as options.timeout so that no unnecessary data is loaded
     options.timeout = deferred.promise;
-    // Loop through urls and make requests
-    for (let i = 0;i < urls.length;i++) {
-      // If valid data is stored in localStorage, resolve the request using that data
-      if (typeof Storage !== "undefined" && urls[i] in localStorage && Number(localStorage[urls[i]+"_expiry"]) > Date.now()) {
-        deferred.resolve(JSON.parse(localStorage[urls[i]]));
-        resolved = true;
-      }
-      // Else, make request to server
-      else {
+    // If valid data is stored in localStorage, resolve the request using that data
+    if (typeof Storage !== "undefined" && urls[0] in localStorage && Number(localStorage[urls[0]+"_expiry"]) > Date.now()) {
+      deferred.resolve(JSON.parse(localStorage[urls[0]]));
+      resolved = true;
+    } else {
+      // Loop through urls and make requests
+      for (let i = 0;i < urls.length;i++) {
         $http.get(urls[i], options).then(function successCallback(response) {
           // Resolve promise with data from request
           if (!resolved) deferred.resolve(response.data);
           resolved = true;
           // Save new data to localStorage
           if (typeof Storage !== "undefined") {
-            localStorage[urls[i]] = JSON.stringify(response.data);
-            localStorage[urls[i]+"_expiry"] = Number(options.lifetime) + Date.now();
+            localStorage[urls[0]] = JSON.stringify(response.data);
+            localStorage[urls[0]+"_expiry"] = Number(options.lifetime) + Date.now();
           }
         }).then(function errorCallback(response) {
           // Count error
           errors++;
           // If the request has not been resolved and all URL requests have failed, try to find data in localStorage even if it is not valid
           if (!resolved && errors === urls.length) {
-            // Loop through urls to search for localStorage data
-            for (var j = 0; j < urls.length; j++) {
-              if (typeof Storage !== "undefined" && urls[j] in localStorage) {
-                deferred.resolve(localStorage[urls[i]]);
-                resolved = true;
-              }
+            // Check localStorage for expired data, and use it
+            if (typeof Storage !== "undefined" && urls[0] in localStorage) {
+              deferred.resolve(localStorage[urls[0]]);
+              resolved = true;
+            } else {
+              // If no data was found, break the promise
+              deferred.reject("ERROR");
             }
-            // If no data was found, break the promise
-            if (!resolved) deferred.reject("ERROR");
           }
         });
       }
