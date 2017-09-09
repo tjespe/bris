@@ -6,7 +6,7 @@ app.controller('searchController', ['$http', '$scope', '$q', '$sce', '$httpx', f
 
   vm.search = function () {
     let get_params = "?input="+encodeURIComponent(vm.query);
-    $httpx.get("https://real-timer-server.tk:2087/place-search.php"+get_params, {withCredentials: true, lifetime: Infinity, alt_urls: ["https://script.google.com/macros/s/AKfycby5ASPEN1ESxoUZru80yqRXBNVm4C5MkDcHL5asJs3KADFW1huc/exec"+get_params, "https://bris-cdn.cf/place-search.php"+get_params]}).then((data)=>{
+    $httpx.get("https://real-timer-server.tk:2087/place-search.php"+get_params, {lifetime: Infinity, alt_urls: ["https://script.google.com/macros/s/AKfycby5ASPEN1ESxoUZru80yqRXBNVm4C5MkDcHL5asJs3KADFW1huc/exec"+get_params, "https://bris-cdn.cf/place-search.php"+get_params]}).then((data)=>{
       console.log(data);
       vm.matches = data.predictions;
       for (let i = 0;i < vm.matches.length;i++) {
