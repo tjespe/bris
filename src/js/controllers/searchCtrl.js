@@ -26,7 +26,7 @@ app.controller('searchController', ['$http', '$scope', '$q', '$sce', '$httpx', f
           "Philippines": "phl",
           "Bangladesh": "bgd"
         }
-        if (country in exceptions) country = exceptions(country);
+        if (country in exceptions) country = exceptions[country];
         vm.matches[i].country = country.substr(0,3).toLowerCase();
       }
     });
