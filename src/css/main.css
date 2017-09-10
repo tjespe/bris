@@ -92,7 +92,7 @@ moon[offset=true] {
   margin-top: 5px;
 }
 .moon-alone {
-  margin-left: -15px;
+  margin-left: -15px !important;
 }
 
 /* Weather table CSS */
