@@ -229,7 +229,8 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     localStorage.visits = Number(visits) + 1;
   }
 
-  // This function adds a function to the native array prototype object, which can delete all empty elements
+  // This adds a function to the native array prototype object, which can delete all empty elements
+  // When called without any parameter all undefined elements are removed from the array
   Array.prototype.clean = function(valute_to_delete) {
     for (let i = 0; i < this.length; i++) {
       if (this[i] == valute_to_delete) {
