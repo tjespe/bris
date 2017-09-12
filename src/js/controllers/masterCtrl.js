@@ -60,7 +60,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     return input;
   }
   vm.toggle = (i, j)=>{
-    if (vm.data[i].data[j].data.length > 0) vm.data[i].data[j].currently_summarized = !vm.data[i].data[j].currently_summarized;
+    if (vm.data[i].data[j].data.length > 1) vm.data[i].data[j].currently_summarized = !vm.data[i].data[j].currently_summarized;
   }
   vm.ifNoForeground = (data)=>{
     return typeof data.foreground === "undefined" || data.foreground.length < 1;
