@@ -114,7 +114,7 @@ moon[offset=true] {
 	max-height: 0px;
 	min-height: 0px;
 	opacity: 0;
-	transition: all 0.27s ease-in-out;
+	transition: all 0.27s ease-in-out, color 0s;
 }
 .summarized>div * {
   height:0px;
