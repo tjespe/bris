@@ -2,7 +2,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
   let vm = this;
   $scope.master.data = [];
   vm.timezone = -(new Date().getTimezoneOffset()/60);
-  vm.rawdata = [];
+  vm.location = $location.path();
 
   // Delete outdated weather data
   for (var index in $scope.master.recents) {
@@ -13,16 +13,16 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     }
   }
 
-  if ($scope.master.recents.hasOwnProperty($location.path())) { // Get data from localStorage
-    $scope.master.location = $scope.master.recents[$location.path()].info.location;
-    $scope.master.data = $scope.master.recents[$location.path()].data;
+  if ($scope.master.recents.hasOwnProperty(vm.location)) { // Get data from localStorage
+    $scope.master.location = $scope.master.recents[vm.location].info.location;
+    $scope.master.data = $scope.master.recents[vm.location].data;
   } else { // Get data from a server
     // When master.hideFlipDeviceTip is set to false, a tip is shown to the user, telling them to flip their phone to see more weather data
     if ((typeof(Storage) === "undefined" || (typeof(Storage) !== "undefined" && localStorage.hideFlipDeviceTip != "true")) && window.innerWidth <= 515) {
       $scope.master.hideFlipDeviceTip = false;
     }
 
-    if ($location.path().length > 3) {
+    if (vm.location.length > 3) {
       fetchUsingPlaceName()
     } else {
       if (navigator.geolocation) {
@@ -50,8 +50,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     function fetchUsingPosition(position) {
       let get_params = "?lat="+position.coords.latitude+'&long='+position.coords.longitude+'&gmt='+vm.timezone+'&d='+Math.round(Date.now()/(1000*60*30));
       $httpx.get('https://real-timer-server.tk:2087/get-weather.php'+get_params, {lifetime:0, alt_urls: ["https://script.google.com/macros/s/AKfycby5B-zyPL5Zse2T_CZhZ92NqTM5tp2fu6J2t-KZMOYPxYOeVXfb/exec"+get_params, "https://bris-cdn.cf/get-weather.php"+get_params]}).then((data)=>{
-        Array.prototype.push.apply(vm.rawdata, data.data);
-        processData();
+        processData(data.data);
       }).catch(function (data, status) {
         fetchUsingApproxPosition();
       });
@@ -86,50 +85,50 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
   });
 
   // This function processes data and changes the structure
-  function processData() {
+  function processData(rawdata) {
     /* semi_processed_data is an array where the index is the numbered day of the month, and the element contains all data for this date */
     let semi_processed_data = [];
     let imgs_path = "src/img/modern-icons/";
-    for (let i = 0; i < vm.rawdata.length; i++) {
-      let icon = vm.rawdata[i].icon;
-      vm.rawdata[i].offset = false;
-      vm.rawdata[i].showImg = true;
+    for (let i = 0; i < rawdata.length; i++) {
+      let icon = rawdata[i].icon;
+      rawdata[i].offset = false;
+      rawdata[i].showImg = true;
       if (/^[\d]+$/.test(icon)) {
-        vm.rawdata[i].background = "";
-        vm.rawdata[i].foreground = imgs_path+icon+".png";
+        rawdata[i].background = "";
+        rawdata[i].foreground = imgs_path+icon+".png";
       } else if (/^\d+d$/.test(icon)) {
         if (icon == "01d") {
-          vm.rawdata[i].background = "";
-          vm.rawdata[i].foreground = imgs_path+"01db.png";
+          rawdata[i].background = "";
+          rawdata[i].foreground = imgs_path+"01db.png";
         } else if (icon == "02d") {
-          vm.rawdata[i].background = imgs_path+"01db.png";
-          vm.rawdata[i].foreground = imgs_path+"02f.png";
+          rawdata[i].background = imgs_path+"01db.png";
+          rawdata[i].foreground = imgs_path+"02f.png";
         } else {
-          vm.rawdata[i].background = imgs_path+"db.png";
-          vm.rawdata[i].foreground = imgs_path+icon.substring(0,2)+"f.png";
+          rawdata[i].background = imgs_path+"db.png";
+          rawdata[i].foreground = imgs_path+icon.substring(0,2)+"f.png";
         }
       } else if (/^\d+m$/.test(icon)) {
         if (icon == "01m") {
-          vm.rawdata[i].background = imgs_path+"01mb.png";
+          rawdata[i].background = imgs_path+"01mb.png";
         } else {
-          vm.rawdata[i].background = imgs_path+"mb.png";
+          rawdata[i].background = imgs_path+"mb.png";
         }
-        vm.rawdata[i].foreground = imgs_path+icon.substring(0,2)+"f.png";
+        rawdata[i].foreground = imgs_path+icon.substring(0,2)+"f.png";
       } else if (/^mf\/\d+n\.\d+$/.test(icon)) {
         var phase = icon.substring(7,9);
         if (!/^mf\/0[12]n\.\d{2}$/.test(icon)) {
-          vm.rawdata[i].offset = true;
+          rawdata[i].offset = true;
         }
-        vm.rawdata[i].phase = findPhase(phase);
+        rawdata[i].phase = findPhase(phase);
         if (icon.substring(3,5)==="01") {
-          vm.rawdata[i].showImg = false;
+          rawdata[i].showImg = false;
         } else {
-          vm.rawdata[i].foreground = imgs_path+icon.substring(3,5)+"f.png";
+          rawdata[i].foreground = imgs_path+icon.substring(3,5)+"f.png";
         }
       }
-      let date = Number(vm.rawdata[i].date);
+      let date = Number(rawdata[i].date);
       if (typeof semi_processed_data[date] === "undefined") semi_processed_data[date] = [];
-      semi_processed_data[date].push(vm.rawdata[i]);
+      semi_processed_data[date].push(rawdata[i]);
     }
     /* processed_data is an array of days ordered chronologically */
     let processed_data = [];
@@ -195,10 +194,10 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     }
     $scope.master.data = processed_data;
     // Add data to master.recents object so it does not have to be reloaded
-    $scope.master.recents[$location.path()] = {
+    $scope.master.recents[vm.location] = {
       data: processed_data,
       info: {
-        url: $location.path(),
+        url: vm.location,
         location: $scope.master.location,
         savedAt: Date.now()
       }
