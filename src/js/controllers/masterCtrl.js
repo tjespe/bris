@@ -71,11 +71,11 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     eval(localStorage.lazyModules);
     vm.lazyModulesLoaded = true;
   } else { // Load the code from the server
-    $http.get('min/lazy-modules.min.js?d='+Date.now()).success(function (data) {
-      eval(data);
+    $http.get('min/lazy-modules.min.js?d='+Date.now()).then(function (response) {
+      eval(response.data);
       vm.lazyModulesLoaded = true;
       if (typeof(Storage) !== "undefined") {
-        localStorage.lazyModules = data;
+        localStorage.lazyModules = response.data;
         localStorage.lmv = version;
       }
     });
