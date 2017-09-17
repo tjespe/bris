@@ -1,5 +1,5 @@
 var app = angular.module("app", ['ngRoute']);
-app.config(["$routeProvider", "$sceProvider", "$locationProvider", '$controllerProvider', '$provide', '$compileProvider', '$filterProvider', '$sceDelegateProvider', function($routeProvider, $sceProvider, $locationProvider, $controllerProvider, $provide, $compileProvider, $filterProvider, $sceDelegateProvider) {
+app.config(["$routeProvider", "$locationProvider", '$controllerProvider', '$qProvider', function($routeProvider, $locationProvider, $controllerProvider, $qProvider) {
   $routeProvider
   .when('/', {
     templateUrl: 'src/views/home.html'
@@ -13,9 +13,9 @@ app.config(["$routeProvider", "$sceProvider", "$locationProvider", '$controllerP
   .otherwise({
     redirectTo: '/'
   });
-  $sceProvider.enabled(true);
-
   $locationProvider.html5Mode(true);
+
+  $qProvider.errorOnUnhandledRejections(false);
 
   // Activate lazy-loading of controllers:
   app._controller = app.controller;
