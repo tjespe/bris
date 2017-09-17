@@ -103,6 +103,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
       });
     }
   }
+  loadCSS("min/main.min.css");
   loadCSS("src/css/ubuntu.css");
   loadCSS("src/css/glyphicons.min.css");
 
