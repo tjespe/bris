@@ -59,11 +59,11 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     function fetchUsingApproxPosition() {
       // Try to get approximate location using IP
       $scope.master.location = $scope.master.textData.yourApproxPosition;
-      $http.get("https://freegeoip.net/json/").success((data)=>{
+      $http.get("https://freegeoip.net/json/").then((response)=>{
         fetchUsingPosition({
           coords: {
-            latitude: data.latitude,
-            longitude: data.longitude
+            latitude: response.data.latitude,
+            longitude: response.data.longitude
           }
         });
       });
