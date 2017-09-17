@@ -81,9 +81,12 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
     });
   }
 
-  // Fetch Google Analytics code if the client is not a robot
-  if (navigator.userAgent.indexOf('Speed Insights')==-1 && navigator.onLine) {
-    $httpx.get('src/js/scripts/analytics.js', {lifetime: Infinity}).then(function successCallback(data) {eval(data)});
+  // Fetch more code if the client is not a robot
+  if (!navigator.userAgent.includes('Speed Insights')) {
+    if (navigator.onLine) $httpx.get('src/js/scripts/analytics.js', {lifetime: Infinity}).then(function successCallback(data) {eval(data)});
+    loadCSS("min/main.min.css");
+    loadCSS("src/css/ubuntu.css");
+    loadCSS("src/css/glyphicons.min.css");
   }
 
   // Show the hidden divs
@@ -103,8 +106,5 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
       });
     }
   }
-  loadCSS("min/main.min.css");
-  loadCSS("src/css/ubuntu.css");
-  loadCSS("src/css/glyphicons.min.css");
 
 }]);
