@@ -48,6 +48,34 @@ header {
   }
 }
 
+/* Navigation menu CSS */
+.nav-menu>ul {
+  display: flex;
+  justify-content:space-around;
+  padding-left: 0;
+  margin-top: 0;
+}
+.nav-menu>ul>li {
+  list-style-type: none;
+  width: 100%;
+}
+.nav-menu>ul>li>a {
+  width: 100%;
+  display: block;
+  padding: 7.5px 5px;
+  border-radius: 5px;
+  -webkit-tap-highlight-color: transparent;
+}
+.nav-menu>ul>li.active>a, .nav-menu>ul>li>a:active {
+  color: #fff;
+  background: #337ab7;
+}
+@media screen and (max-width: 565px) {
+  .nav-menu-text {
+    display: none;
+  }
+}
+
 /* Loading icon CSS */
 @keyframes spin {0% {transform: rotate(45deg)}17% {transform: rotate(300deg)}34% {transform: rotate(90deg)}51% {transform: rotate(450deg)}66% {transform: rotate(135deg)}83% {transform: rotate(495deg)}100% {transform: rotate(405deg)}}
 .loader {animation-name: spin;
@@ -163,32 +191,4 @@ input {
   border: 1px solid #ccc;
   margin: 0 15px 15px;
   font-size: initial;
-}
-
-/* Navigation menu CSS */
-.nav-menu>ul {
-  display: flex;
-  justify-content:space-around;
-  padding-left: 0;
-  margin-top: 0;
-}
-.nav-menu>ul>li {
-  list-style-type: none;
-  width: 100%;
-}
-.nav-menu>ul>li>a {
-  width: 100%;
-  display: block;
-  padding: 7.5px 5px;
-  border-radius: 5px;
-  -webkit-tap-highlight-color: transparent;
-}
-.nav-menu>ul>li.active>a, .nav-menu>ul>li>a:active {
-  color: #fff;
-  background: #337ab7;
-}
-@media screen and (max-width: 565px) {
-  .nav-menu-text {
-    display: none;
-  }
 }
