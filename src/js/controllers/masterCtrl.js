@@ -15,7 +15,7 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.height = $window.innerHeight;
 
   vm.textData = {};
-  vm.availableLangs = ['en','no'];
+  vm.availableLangs = ['en','no','es'];
   vm.lang = navigator.language;
 
   // Check if language is requested in url
