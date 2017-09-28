@@ -6,8 +6,9 @@ CACHE:
 /
 index.html
 manifest.appcache
-https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js
-https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0/angular.min.js.map
+https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js
+https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js.map
+https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular-route.min.js
 /manifest.appcache
 /min/main.min.css
 /min/initial.min.js
