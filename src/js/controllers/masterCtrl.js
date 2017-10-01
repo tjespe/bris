@@ -69,6 +69,12 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.ifNoForeground = (data)=>{
     return typeof data.foreground === "undefined" || data.foreground.length < 1;
   }
+  vm.ifPeriodInFuture = (period)=>{
+    return period.data.length ? vm.ifHourInFuture(period.data[period.data.length-1]) : vm.ifHourInFuture(period);
+  }
+  vm.ifHourInFuture = (hour)=>{
+    return hour.unix > Date.now()/1000;
+  }
 
   // Load the rest of the javascript code
   if (typeof(Storage) !== "undefined" && typeof localStorage.lazyModules !== "undefined" && localStorage.lmv == version) { // Load the code from localStorage

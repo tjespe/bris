@@ -11,7 +11,7 @@
     </div>
     <div ng-repeat="(i, day) in master.data">
       <div class="dateshift row semi-row" ng-if="i > 0"><div ng-bind="::day.day"></div></div>
-      <div ng-repeat="(j, period) in day.data">
+      <div ng-repeat="(j, period) in day.data" ng-if="master.ifPeriodInFuture(period)">
         <div class="summarized row" ng-class="{'show-row':period.currently_summarized}">
           <div ng-class="{'expand-btn': period.data.length > 1}" ng-click="master.toggle(i, j)">
             <span ng-bind="::master.textData.kl+period.hour+'-'+period.hourTo"></span>
@@ -27,7 +27,7 @@
           <div ng-if="master.width > 413"><span ng-bind="::period.precipitation+' mm'"></span></div>
           <div ng-if="master.width > 515"><span ng-bind="::period.wind+' m/s'"></span></div>
         </div>
-        <div class="row" ng-repeat="hour in period.data track by $index" ng-class="{'summarized':period.summarizeable,'show-row':!period.currently_summarized}">
+        <div class="row" ng-repeat="hour in period.data track by $index" ng-class="{'summarized':period.summarizeable,'show-row':!period.currently_summarized}" ng-if="master.ifHourInFuture(hour)">
           <div><span ng-bind="::master.textData.kl+hour.hour+'-'+hour.hourTo"></span></div>
           <div>
             <span>
