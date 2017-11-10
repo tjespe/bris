@@ -2,6 +2,7 @@
 <html ng-app="app" ng-controller="masterCtrl as master" manifest="manifest.appcache">
 <head>
   <title ng-bind="::master.textData.pageTitle"></title>
+  <script>if (location.hash.length) {window.history.pushState({},"", decodeURIComponent(location.hash.split("#").pop()))}</script>
   <!-- Meta-data -->
   <meta charset="UTF-8">
   <meta name="mobile-web-app-capable" content="yes">
