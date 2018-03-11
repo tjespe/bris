@@ -194,3 +194,7 @@ input {
   font-size: initial;
   box-shadow: 0 1px 2px #ccc;
 }
+input:focus {
+  outline: 0;
+  box-shadow: 0 1px 2px #ccc inset;
+}
