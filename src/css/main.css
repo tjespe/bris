@@ -149,11 +149,11 @@ moon[offset=true] {
 }
 .summarized.show-row {
   opacity: 1;
-	max-height: 62px;
-	min-height: 62px;
+	max-height: 50px;
+	min-height: 50px;
 }
 .summarized.show-row>div {
-  padding:8px;
+  padding:3px;
 }
 .row {
   display: flex;
