@@ -59,7 +59,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     function fetchUsingApproxPosition() {
       // Try to get approximate location using IP
       $scope.master.location = $scope.master.textData.yourApproxPosition;
-      $http.get("http://ip-api.com/json").then((response)=>{
+      $http.get("https://real-timer-server.tk/ip-data.php").then((response)=>{
         console.log(response, response.data)
         fetchUsingPosition({
           coords: {
