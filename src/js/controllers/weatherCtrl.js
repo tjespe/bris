@@ -18,7 +18,7 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
     $scope.master.data = $scope.master.recents[vm.location].data;
   } else { // Get data from a server
     // When master.hideFlipDeviceTip is set to false, a tip is shown to the user, telling them to flip their phone to see more weather data
-    if ((typeof(Storage) === "undefined" || (typeof(Storage) !== "undefined" && localStorage.hideFlipDeviceTip != "true")) && window.innerWidth <= 515) {
+    if ((typeof(Storage) === "undefined" || localStorage.hideFlipDeviceTip != "true") && $window.innerWidth <= 515) {
       $scope.master.hideFlipDeviceTip = false;
     }
 
@@ -60,7 +60,6 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
       // Try to get approximate location using IP
       $scope.master.location = $scope.master.textData.yourApproxPosition;
       $http.get("https://real-timer-server.tk/ip-data.php").then((response)=>{
-        console.log(response, response.data)
         fetchUsingPosition({
           coords: {
             latitude: response.data.lat,
@@ -70,20 +69,6 @@ app.controller("weatherCtrl", ['$http', '$scope', '$window', '$location', '$rout
       });
     }
   }
-
-  // Adjust background when window is resized
-  angular.element($window).on('resize', function () {
-    $scope.$apply(function(){
-      $scope.master.height = window.innerHeight;
-      $scope.master.width = window.innerWidth;
-      if ($scope.master.width > 515) {
-        $scope.master.hideFlipDeviceTip = true;
-        if (typeof(Storage) !== "undefined") {
-          localStorage.hideFlipDeviceTip = true;
-        }
-      }
-    });
-  });
 
   // This function processes data and changes the structure
   function processData(rawdata) {

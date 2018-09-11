@@ -1,13 +1,13 @@
 <section ng-hide="master.fail" ng-if="master.lazyModulesLoaded" ng-controller="weatherCtrl as w">
   <h3 ng-if="master.weatherLoaded()" ng-bind="master.textData.showingWFor + ' ' + master.location"></h3>
-  <span ng-if="!master.hideFlipDeviceTip && master.width<=515" ng-show="master.weatherLoaded()" ng-bind="::master.textData.rotateTip"></span>
+  <span id="flip-device-tip" ng-if="!master.hideFlipDeviceTip" ng-show="master.weatherLoaded()" ng-bind="::master.textData.rotateTip"></span>
   <div ng-if="master.weatherLoaded()" ng-cloak>
     <div class="row semi-row" id="table-header">
       <div ng-bind="::master.textData.time"></div>
       <div ng-bind="::master.textData.weather"></div>
       <div ng-bind="::master.textData.degrees"></div>
-      <div ng-if="master.width>413" ng-bind="::master.textData.precipitation"></div>
-      <div ng-if="master.width>515" ng-bind="::master.textData.windSpeed"></div>
+      <div ng-bind="::master.textData.precipitation"></div>
+      <div ng-bind="::master.textData.windSpeed"></div>
     </div>
     <div ng-repeat="(i, day) in master.data">
       <div class="dateshift row semi-row" ng-if="i > 0"><div ng-bind="::day.day"></div></div>
@@ -24,8 +24,8 @@
             </span>
           </div>
           <div><span ng-bind="::period.degs+'ºC'"></span></div>
-          <div ng-if="master.width > 413"><span ng-bind="::period.precipitation+' mm'"></span></div>
-          <div ng-if="master.width > 515"><span ng-bind="::period.wind+' m/s'"></span></div>
+          <div><span ng-bind="::period.precipitation+' mm'"></span></div>
+          <div><span ng-bind="::period.wind+' m/s'"></span></div>
         </div>
         <div class="row" ng-repeat="hour in period.data track by $index" ng-class="{'summarized':period.summarizeable,'show-row':!period.currently_summarized}" ng-if="master.ifHourInFuture(hour)">
           <div><span ng-bind="::master.textData.kl+hour.hour+'-'+hour.hourTo"></span></div>
@@ -36,8 +36,8 @@
             </span>
           </div>
           <div><span ng-bind="::hour.degs+'ºC'"></span></div>
-          <div ng-if="master.width>413"><span ng-bind="::hour.precipitation+' mm'"></span></div>
-          <div ng-if="master.width>515"><span ng-bind="::hour.wind+' m/s'"></span></div>
+          <div ><span ng-bind="::hour.precipitation+' mm'"></span></div>
+          <div ><span ng-bind="::hour.wind+' m/s'"></span></div>
         </div>
       </div>
     </div>

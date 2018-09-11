@@ -162,6 +162,22 @@ moon[offset=true] {
   flex:1;
 	border: 1px solid #ddd;
 }
+@media screen and (max-width: 413px) {
+  .row > div:nth-child(4) {
+    display:  none;
+  }
+}
+#flip-device-tip {
+  display: none;
+}
+@media screen and (max-width: 515px) {
+  .row > div:nth-child(5) {
+    display:  none;
+  }
+  #flip-device-tip {
+    display: block;
+  }
+}
 .expand-btn {
   color: #337ab7;
   cursor: pointer;

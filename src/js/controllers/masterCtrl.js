@@ -11,13 +11,6 @@ app.controller('masterCtrl', ['$http', '$window', '$rootScope', '$scope', '$loca
   vm.recents = {};
   vm.domain = location.host;
 
-  vm.width = $window.innerWidth;
-  vm.height = $window.innerHeight;
-  angular.element($window).bind("resize", ()=>{
-    vm.width = $window.innerWidth;
-    vm.height = $window.innerHeight;
-  });
-
   vm.textData = {};
   vm.availableLangs = ['en','no','es'];
   vm.lang = navigator.language;
